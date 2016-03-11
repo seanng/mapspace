@@ -1,4 +1,9 @@
 class User < ActiveRecord::Base
+
+  has_many :maps
+  has_many :comments
+  has_many :likes
+
   # Include default devise modules.
   devise :database_authenticatable, :registerable,
           :recoverable, :rememberable, :trackable, :validatable, :omniauthable
