@@ -83,8 +83,8 @@ Rails.application.configure do
     :path => '/:class/:attachment/:id_partition/:style/:filename',
     :s3_credentials => {
       :bucket => 'project-mapspace',
-      access_key_id: ENV['AWS_ACCESS_KEY_ID'],
-      secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
+      access_key_id: ENV['AKIAJSPBF3I2TBDR57GQ'],
+      secret_access_key: ENV['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']
     }
   }
 end
