@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160311064948) do
+ActiveRecord::Schema.define(version: 20160311070711) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,9 +36,9 @@ ActiveRecord::Schema.define(version: 20160311064948) do
     t.text     "description"
     t.integer  "user_id"
     t.boolean  "featured"
-    t.string   "tags",        default: "{}"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.string   "tags"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "pins", force: :cascade do |t|
@@ -65,25 +65,25 @@ ActiveRecord::Schema.define(version: 20160311064948) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "provider",               default: "email", null: false
-    t.string   "uid",                    default: "",      null: false
-    t.string   "encrypted_password",     default: "",      null: false
+    t.string   "provider",               default: "email",                                                                                                                                              null: false
+    t.string   "uid",                    default: "",                                                                                                                                                   null: false
+    t.string   "encrypted_password",     default: "",                                                                                                                                                   null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,       null: false
+    t.integer  "sign_in_count",          default: 0,                                                                                                                                                    null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.string   "name"
     t.string   "nickname"
-    t.string   "image"
+    t.string   "image",                  default: "http://www.hmhco.com/~/media/sites/home/at-home/featured-shops/by-brand/carmen-sandiego/cs%20returns%20app%20iconlphmh110915.png?h=308&la=en&w=308"
     t.string   "email"
     t.json     "tokens"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "caption"
+    t.string   "caption",                default: "Hey, check out my maps!"
     t.string   "image_file_name"
     t.string   "image_content_type"
     t.integer  "image_file_size"
