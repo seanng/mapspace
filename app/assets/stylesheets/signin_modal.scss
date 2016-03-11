@@ -1,7 +1,11 @@
 
 /*Log in modal*/
-.modal-dialog {
+body .modal-dialog {
     width: 400px;
+}
+
+#SignIn{
+  text-align: center;
 }
 .modal-footer {
     height: 70px;
@@ -19,7 +23,7 @@
     color: #fff;
     background: #3276B1;
 }
-#registeraccount {
+#lower-modal-text {
   text-align: left;
   font-weight: 100;
   font-size: 12px;
