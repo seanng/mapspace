@@ -1,68 +1,92 @@
 $(document).ready(function () {
-  // Sign in Modal
+
+  $.auth.validateToken().then(function(user){
+    console.log(user);
+  }).fail(function(resp){
+    console.log(resp);
+  });
+
+  var button = $('#modal-footer-sign-in button');
+  var clearInput = function(){
+    $('#uLogin').val('');
+    $('#uPassword').val('');
+  };
+
+  var signInButton = true;
+
+  var signwhat1 = function(){
+    $('#signwhat1').click(function(e){
+      e.preventDefault();
+      $('#lower-modal-text').html("Already have an account? <span id='signwhat2'><a>Sign In!</a></span>");
+      button.html('Sign Up');
+      $('#modal-header-label').html('Sign Up');
+      signInButton = false;
+      clearInput();
+      signwhat2();
+    });
+  };
+
+  var signwhat2 = function(){
+    $('#signwhat2').click(function(e){
+      e.preventDefault();
+      $('#lower-modal-text').html("Don't have an account? <span id='signwhat1'><a>Sign Up!</a></span>");
+      button.html('Sign In');
+      $('#modal-header-label').html('Sign In');
+      signInButton = true;
+      signwhat1();
+    });
+  };
+
+// Sign in Modal
   $('#signin-modal').on('hidden.bs.modal', function (e) {
     var inputs = $('form input');
     var title = $('.modal-title');
-    var progressBar = $('.progress-bar');
-    var button = $('#modal-footer-sign-in button');
     inputs.removeAttr("disabled");
-    progressBar.css({ "width" : "0%" });
     button.removeClass("btn-success")
         .addClass("btn-primary")
-        .text("Ok")
         .removeAttr("data-dismiss");
-    $('#uLogin').val('');
-    $('#uPassword').val('');
+    clearInput();
   });
-  // Upon clicking button to Sign In
+
+// Upon clicking button to Sign In
   $('#modal-footer-sign-in button').click(function(e){
     e.preventDefault();
-    $('#SignIn').html('Please sign in');
-    console.log ('clicked');
-    var button = $(this);
-    var user = {
-      username: $('#uLogin').val(),
-      password: $('#uPassword').val()
-    };
-    $('#uLogin').val('');
-    $('#uPassword').val('');
-    console.log(user);
+
     // If successfully authenticated,
     if ( button.attr("data-dismiss") != "modal" ){
-      var inputs      = $('.loginmodalforms');
-      var title       = $('.modal-title');
-      var progress    = $('.progress');
-      var progressBar = $('.progress-bar');
-      var SignIn      = $('#SignIn');
-      var showButton  = function(){
-        progress.hide();
-        button.show();
-        progressBar.css({ "width" : "0%" });
-      };
-      // Render progressbar animation
-      button.hide();
-      progress.show();
-      progressBar.animate({width : "100%"}, 100);
-      progress.delay(1000)
-        .fadeOut(600, showButton);
-      $.ajax({ // Create a new session
-        type: "POST",
-        url: "/api/sessions",
-        data: user,
-        dataType: 'JSON',
-        xhrFields: {
-          withCredentials: true
-        },
-        success: function(response){
-          console.log("create session / logged in", response.user_id);
+      // var inputs      = $('.loginmodalforms');
+      // var title       = $('.modal-title');
+      // var SignIn      = $('#SignIn');
+
+      if (signInButton) {
+        // Sign in
+        $.auth.emailSignIn({
+          email     : $('#uLogin').val(),
+          password  : $('#uPassword').val()
+        }).then(function (user) {
           window.location.href = '/';
-        },
-        error: function(response) {
-          console.log ('there is an error, mate');
-          progress.hide();
-          SignIn.html(response.responseText);
-        }
-      });
+        }).fail(function (resp) {
+          console.log(resp);
+          $('#uPassword').val('');
+        });
+      } else {
+        // Sign up
+        $.auth.emailSignUp({
+          email     : $('#uLogin').val(),
+          password  : $('#uPassword').val(),
+          password_confirmation : $('#uPassword').val()
+        }).then(function (user) {
+          window.location.href = '/';
+        }).fail(function (resp) {
+          console.log("trying to sign up");
+          console.log(resp);
+          alert('Authentication failure: ' + resp.errors.join(' '));
+          clearInput();
+        });
+      }
     }
   });
+
+  signwhat1();
+
 });
