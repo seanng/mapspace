@@ -1,4 +1,4 @@
-h3 {
+#page-title {
   text-align: center;
   border-bottom: 1px solid black;
   border-top: 1px solid black;
@@ -7,6 +7,34 @@ h3 {
   background-color: white;
 }
 
-filter-item {
+#feed-filter-bar {
+  border-top: 1px solid black;
+  border-right: 1px solid black;
+  border-left: 1px solid black;
+}
+
+#feed-filter-bar > * {
+  display: inline;
+}
+
+.filter-item {
+  display: inline;
+}
+
+.map-feed {
+  border-right: 1px solid black;
+  border-left: 1px solid black;
+}
+
+.map-item {
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+}
+
+.map-stats {
+  padding-left: 0;
+}
+
+.map-stats > li {
   display: inline;
 }
