@@ -1,4 +1,4 @@
-module API
+module Api
   class CommentsController < ApplicationController
     def index
 
