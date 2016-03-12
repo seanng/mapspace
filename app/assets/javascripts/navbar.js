@@ -21,7 +21,18 @@ $(document).ready(function() {
     $('.searchForm').on('submit', function (e) {
       e.preventDefault();
       var searchInput = $('.searchBar').val();
-      populateFilterPage(searchInput);
+
+      $.ajax({
+        method: 'GET',
+        url: '/filters?searchInput=' + searchInput,
+        success: function(response1, status){
+          populateFilterPage(searchInput);
+        },
+        error: function (response1, status){
+          console.log ('could not load filter page.');
+        }
+      });
+
     });
   };
 
@@ -35,8 +46,6 @@ $(document).ready(function() {
       success: function (response, status2) {
         console.log ('successful get!');
         console.log (response);
-        $('#testing').html(response);
-        window.location.href='/filters?searchInput=' + searchInput;
       },
       error: function(response, status2){
         console.log (response);
