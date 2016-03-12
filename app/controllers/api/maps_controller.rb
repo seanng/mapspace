@@ -9,13 +9,12 @@ module Api
     end
 
     def filter
-      puts "connected"
-      logger.info("connected")
       searchInput = params[:searchInput]
 
       searchResults = [];
-      searchResults << Map.where('title LIKE ?', "%#{@searchInput}%")
-      searchResults << Map.where('description LIKE ?', "%#{@searchInput}%")
+      searchResults << Map.where('title LIKE ?', "%#{searchInput}%")
+      searchResults << Map.where('description LIKE ?', "%#{searchInput}%")
+      puts searchResults
 
       render json: { searchResults: searchResults, searchInput: searchInput }
     end
