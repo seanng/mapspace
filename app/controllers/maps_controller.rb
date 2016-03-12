@@ -1,10 +1,10 @@
-class MapController < ApplicationController
+:MapsController < ApplicationController
   def user_maps
 
   end
 
   def index
-
+    render Bowtie.all
   end
 
   def filter

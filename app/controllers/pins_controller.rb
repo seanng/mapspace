@@ -1,4 +1,4 @@
-class PinController < ApplicationController
+class PinsController < ApplicationController
   def create
 
   end
