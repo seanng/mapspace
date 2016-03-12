@@ -51,7 +51,6 @@ $(document).ready(function () {
 // Upon clicking button to Sign In
   $('#modal-footer-sign-in button').click(function(e){
     e.preventDefault();
-    clearInput();
 
     // If successfully authenticated,
     if ( button.attr("data-dismiss") != "modal" ){
