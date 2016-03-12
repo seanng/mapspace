@@ -1,11 +1,5 @@
 $(document).ready(function () {
 
-  $.auth.validateToken().then(function(user){
-    console.log(user);
-  }).fail(function(resp){
-    console.log(resp);
-  });
-
   var button = $('#modal-footer-sign-in button');
   var clearInput = function(){
     $('#uLogin').val('');

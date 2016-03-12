@@ -11,20 +11,20 @@ Rails.application.routes.draw do
 
   #API routes
   namespace :api do
-    #LIKE
+    #LIKES
     resources :likes, only: [:create, :destroy]
-    #MAP
+    #MAPS
     get '/maps/filter', to: 'maps#filter'
     get '/users/maps/', to: 'maps#user_maps'
     resources :maps, only: [:index, :create, :show, :update, :destroy] do
-    #COMMENT
+    #COMMENTS
       resources :comments, only: [:index, :create, :destroy]
     end
 
-    #PIN
+    #PINS
     resources :pins, only: [:create, :update, :destroy]
 
-    #USER
+    #USERS
     resources :users, only: [:show] do
       post '/image', to: 'users#image'
     end

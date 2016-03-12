@@ -4,6 +4,15 @@ class PageController < ApplicationController
   end
 
   def filters
+    # @searchInput = params[:searchInput]
+    # @searchResults = []
+    # @searchResults << Map.where('title LIKE ?', "%#{@searchInput}%")
+    # @searchResults << Map.where('description LIKE ?', "%#{@searchInput}%")
+    # puts @searchResults
+
+    # @searchResults.each do |result|
+    #   @result.
+    # end
 
   end
 
