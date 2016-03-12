@@ -26,13 +26,13 @@ $(document).ready(function() {
         method: 'GET',
         url: '/filters?searchInput=' + searchInput,
         success: function(response1, status){
+          $('main').html(response1);
           populateFilterPage(searchInput);
         },
         error: function (response1, status){
           console.log ('could not load filter page.');
         }
       });
-
     });
   };
 
@@ -43,12 +43,24 @@ $(document).ready(function() {
       data: {
         searchInput: searchInput
       },
-      success: function (response, status2) {
-        console.log ('successful get!');
-        console.log (response);
+      success: function (response2, status2) {
+        console.log (response2);
+        $('.searchBar').val('');
+
+        var searchField = response2.searchInput;
+        $('#searchField').html(searchField);
+
+        var searchResults = response2.searchResults;
+
+        for (var i = 0; i < searchResults.length; i++) {
+          for (var j = 0; j < searchResults[i].length; j++) {
+            $('#resultFeed').append(searchResults[i][j].title); //<- DO CRAZY STUFF BETWEEN THOSE BRACKETS!!
+          }
+        }
+
       },
-      error: function(response, status2){
-        console.log (response);
+      error: function(response2, status2){
+        console.log (response2);
         console.log ('fail get');
       }
     });

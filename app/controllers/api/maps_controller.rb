@@ -12,11 +12,12 @@ module Api
       searchInput = params[:searchInput]
 
       searchResults = [];
-      searchResults << Map.where('title LIKE ?', "%#{searchInput}%")
-      searchResults << Map.where('description LIKE ?', "%#{searchInput}%")
+      searchResults << Map.where('LOWER(title) LIKE ?', "%#{searchInput.downcase}%")
+      searchResults << Map.where('LOWER(description) LIKE ?', "%#{searchInput.downcase}%")
       puts searchResults
 
       render json: { searchResults: searchResults, searchInput: searchInput }
+
     end
 
     def create
