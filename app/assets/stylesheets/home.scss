@@ -8,9 +8,7 @@
 }
 
 #feed-filter-bar {
-  border-top: 1px solid black;
-  border-right: 1px solid black;
-  border-left: 1px solid black;
+  border: 1px solid black;
 }
 
 #feed-filter-bar > * {
@@ -27,7 +25,6 @@
 }
 
 .map-item {
-  border-top: 1px solid black;
   border-bottom: 1px solid black;
 }
 
@@ -35,6 +32,14 @@
   padding-left: 0;
 }
 
-.map-stats > li {
+.map-stats > * {
+  display: inline-block;
+}
+
+.map-stats-user {
+  padding-left: 0;
+}
+
+.map-stats-user > li {
   display: inline;
 }
