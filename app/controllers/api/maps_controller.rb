@@ -1,4 +1,4 @@
-module API
+module Api
   class MapsController < ApplicationController
     def user_maps
 
