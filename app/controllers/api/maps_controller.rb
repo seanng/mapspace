@@ -10,12 +10,9 @@ module Api
 
     def filter
       searchInput = params[:searchInput]
+      puts searchInput
 
-      searchResults = [];
-      searchResults << Map.where('LOWER(title) LIKE ?', "%#{searchInput.downcase}%")
-      searchResults << Map.where('LOWER(description) LIKE ?', "%#{searchInput.downcase}%")
-
-      render json: { searchResults: searchResults, searchInput: searchInput }
+      render json: Map.where('LOWER(title) LIKE ? OR LOWER(description) LIKE ?', "%#{searchInput.downcase}%", "%#{searchInput.downcase}%"), :include => [:comments, :likes, :user]
 
     end
 
