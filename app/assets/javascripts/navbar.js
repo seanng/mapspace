@@ -9,8 +9,6 @@ $(document).ready(function() {
     console.log(resp);
   });
 
-  var searchInput = $('.searchBar').val();
-
   var bindSignOut = function () {
     $('#signout-button').on('click', function(){
       $.auth.signOut();
@@ -22,6 +20,8 @@ $(document).ready(function() {
   var searchEvent = function () {
     $('.searchForm').on('submit', function (e) {
       e.preventDefault();
+      var searchInput = $('.searchBar').val();
+      console.log('testing123');
       getFilterPage(searchInput);
     });
   };
@@ -34,6 +34,7 @@ $(document).ready(function() {
       success: function(response1, status){
         $('main').html(response1);
         console.log ("hiiiiiii", response1);
+        $('#searchField').html(searchInput);
         populateFilterPage(searchInput);
       },
       error: function (response1, status){
@@ -42,35 +43,61 @@ $(document).ready(function() {
     });
   };
 
-
-
-  var populateFilterPage = function(searchInput) {
+  var populateFilterPage = function(inputs) {
     $.ajax({
       method: 'GET',
       url: "/api/maps/filter",
       data: {
-        searchInput: searchInput
+        searchInput: inputs
       },
       success: function (response2, status2) {
-        console.log (response2);
+        console.log(response2);
+        displayMaps(response2);
+
         $('.searchBar').val('');
-
-        var searchField = response2.searchInput;
-        $('#searchField').html(searchField);
-
-        var searchResults = response2.searchResults;
-
-        for (var i = 0; i < searchResults.length; i++) {
-          for (var j = 0; j < searchResults[i].length; j++) {
-            $('#filter-feed').append(searchResults[i][j].title); //<- DO CRAZY STUFF BETWEEN THOSE BRACKETS!!
-          }
-        }
-
       },
       error: function(response2, status2){
+        console.log (searchInput);
         console.log (response2);
         console.log ('fail get');
       }
+    });
+  };
+
+  var displayMaps = function(data) {
+    data.forEach(function(item){
+      var user = item.user.name;
+      var userID = item.user_id;
+      var mapID = item.id;
+      var title       = item.title;
+      var tags        = item.tags;
+      var likes       = item.likes.length;
+      var comments    = item.comments.length;
+      var dateRaw     = moment([item.created_at]); // need to check this
+      var dateCurrent = moment();
+      var dateSince   = dateCurrent.diff(dateRaw);
+
+      var newMap = '' +
+      '<div class="row map-item">' +
+        '<div class="col-xs-3 likes">' +
+          '<span class="glyphicon glyphicon-star" id="liked-star" aria-hidden="true"></span>' +
+          '<h3 id="number-of-likes">' + likes + '</h3>' +
+        '</div>' +
+        '<div class="col-xs-6 map-about">' +
+          '<h3><a href="/maps/' + mapID + '">' + title + '</a></h3>' +
+          '<ul class="map-stats">' +
+            '<li class="map-stats-comments"><a href="/maps/' + mapID + '/comments">' + comments + '</a>comments</li>' +
+            '<ul class="map-stats-user">' +
+              '<li class="map-stats-date">' + dateSince + 'days ago</li>' +
+              '<li class="map-stats-owner">by ' + '<a href="/profile/' + userID + '">' + user + '</a></li>' +
+            '</ul>' +
+          '</ul>' +
+        '</div>' +
+        '<div class="col-xs-3 map-tag"><h5>' + tags + ' tags</h5></div>' +
+      '</div>';
+
+      $('#filter-feed').append(newMap);
+
     });
   };
 
