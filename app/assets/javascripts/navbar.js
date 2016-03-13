@@ -4,9 +4,8 @@ $(document).ready(function() {
     console.log('authenticated');
     $('.nav-link').eq(0).hide();
   }).fail(function(resp){
-    console.log('not authenticated');
+    console.log('not authenticated', resp);
     $('.dropdown-toggle').eq(0).hide();
-    console.log(resp);
   });
 
   var bindSignOut = function () {

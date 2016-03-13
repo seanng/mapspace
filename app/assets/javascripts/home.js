@@ -42,7 +42,6 @@ $(document).ready(function () {
       url:"/api/maps",
       method: "GET",
       success: function(response, status) {
-        console.log(response);
         displayMaps(response);
       },
       error: function (response, status) {
