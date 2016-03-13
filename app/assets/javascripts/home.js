@@ -7,8 +7,8 @@ $(document).ready(function () {
       var mapID       = item.id;
       var title       = item.title;
       var tags        = item.tags;
-      var likes       = item.keys(likes.user).length; // need to check this
-      var comments    = item.keys(comments.user).length; // need to check this
+      var likes       = item.likes.length;
+      var comments    = item.comments.length;
 
       var dateRaw     = moment([item.created_at]); // need to check this
       var dateCurrent = moment();
@@ -21,7 +21,7 @@ $(document).ready(function () {
           '<h3 id="number-of-likes">' + likes + '</h3>' +
         '</div>' +
         '<div class="col-xs-6 map-about">' +
-          '<h3><a href="/maps/' + mapID + '">' + Title + '</a></h3>' +
+          '<h3><a href="/maps/' + mapID + '">' + title + '</a></h3>' +
           '<ul class="map-stats">' +
             '<li class="map-stats-comments"><a href="/maps/' + mapID + '/comments">' + comments + '</a>comments</li>' +
             '<ul class="map-stats-user">' +
@@ -33,7 +33,8 @@ $(document).ready(function () {
         '<div class="col-xs-3 map-tag"><h5>' + tags + ' tags</h5></div>' +
       '</div>';
 
-      $('.map-feed').append(newMap);
+      $('.home-feed').append(newMap);
+    });
   };
 
   var getMaps = function () {
@@ -42,7 +43,7 @@ $(document).ready(function () {
       method: "GET",
       success: function(response, status) {
         console.log(response);
-        displayMaps();
+        displayMaps(response);
       },
       error: function (response, status) {
         console.log(response);
