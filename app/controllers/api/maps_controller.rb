@@ -5,7 +5,7 @@ module Api
     end
 
     def index
-
+      render json: Map.where(featured: true), :include => [:comments, :likes, :user]
     end
 
     def filter
@@ -14,7 +14,6 @@ module Api
       searchResults = [];
       searchResults << Map.where('LOWER(title) LIKE ?', "%#{searchInput.downcase}%")
       searchResults << Map.where('LOWER(description) LIKE ?', "%#{searchInput.downcase}%")
-      puts searchResults
 
       render json: { searchResults: searchResults, searchInput: searchInput }
 

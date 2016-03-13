@@ -9,6 +9,8 @@ $(document).ready(function() {
     console.log(resp);
   });
 
+  var searchInput = $('.searchBar').val();
+
   var bindSignOut = function () {
     $('#signout-button').on('click', function(){
       $.auth.signOut();
@@ -20,21 +22,27 @@ $(document).ready(function() {
   var searchEvent = function () {
     $('.searchForm').on('submit', function (e) {
       e.preventDefault();
-      var searchInput = $('.searchBar').val();
-
-      $.ajax({
-        method: 'GET',
-        url: '/filters?searchInput=' + searchInput,
-        success: function(response1, status){
-          $('main').html(response1);
-          populateFilterPage(searchInput);
-        },
-        error: function (response1, status){
-          console.log ('could not load filter page.');
-        }
-      });
+      getFilterPage(searchInput);
     });
   };
+
+
+  var getFilterPage = function(searchInput) {
+    $.ajax({
+      method: 'GET',
+      url: '/filters?searchInput=' + searchInput,
+      success: function(response1, status){
+        $('main').html(response1);
+        console.log ("hiiiiiii", response1);
+        populateFilterPage(searchInput);
+      },
+      error: function (response1, status){
+        console.log ('could not load filter page.');
+      }
+    });
+  };
+
+
 
   var populateFilterPage = function(searchInput) {
     $.ajax({
@@ -54,7 +62,7 @@ $(document).ready(function() {
 
         for (var i = 0; i < searchResults.length; i++) {
           for (var j = 0; j < searchResults[i].length; j++) {
-            $('#resultFeed').append(searchResults[i][j].title); //<- DO CRAZY STUFF BETWEEN THOSE BRACKETS!!
+            $('#filter-feed').append(searchResults[i][j].title); //<- DO CRAZY STUFF BETWEEN THOSE BRACKETS!!
           }
         }
 
@@ -70,6 +78,7 @@ $(document).ready(function() {
   var init = function () {
     bindSignOut();
     searchEvent();
+    populateFilterPage(searchInput);
   };
 
   init();
