@@ -21,12 +21,12 @@ $(document).ready(function () {
           '<h3 id="number-of-likes">' + likes + '</h3>' +
         '</div>' +
         '<div class="col-xs-6 map-about">' +
-          '<h3><a href="/maps/mapID">' + Title + '</a></h3>' +
+          '<h3><a href="/maps/' + mapID + '">' + Title + '</a></h3>' +
           '<ul class="map-stats">' +
-            '<li class="map-stats-comments"><a href="/maps/mapID/comments">' + comments + '</a>comments</li>' +
+            '<li class="map-stats-comments"><a href="/maps/' + mapID + '/comments">' + comments + '</a>comments</li>' +
             '<ul class="map-stats-user">' +
               '<li class="map-stats-date">' + dateSince + 'days ago</li>' +
-              '<li class="map-stats-owner">by ' + '<a href="/profile/userID">' + user + '</a></li>' +
+              '<li class="map-stats-owner">by ' + '<a href="/profile/' + userID + '">' + user + '</a></li>' +
             '</ul>' +
           '</ul>' +
         '</div>' +
@@ -34,7 +34,6 @@ $(document).ready(function () {
       '</div>';
 
       $('.map-feed').append(newMap);
-
   };
 
   var getMaps = function () {
