@@ -2,7 +2,12 @@ module Api
   class UsersController < ApplicationController
 
   def show
-    render 'show.jbuilder'
+    render json: User.find(params[:id])
+  end
+
+  def update
+
+    # User.update(params[:id], user_params)
   end
 
   def image

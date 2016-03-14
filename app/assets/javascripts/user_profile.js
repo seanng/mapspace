@@ -1,7 +1,6 @@
 $(document).ready(function() {
 
   var displayUserMaps = function (data) {
-    console.log("user maps", data);
     data.forEach(function (item) {
       var user        = item.user.name;
       var userID      = item.user.id;
@@ -47,7 +46,7 @@ $(document).ready(function() {
       method: "GET",
       success: function(response, status) {
         displayUserMaps(response);
-        showEditButton();
+        showEditButtons();
       },
       error: function (response, status) {
         console.log(response);
@@ -55,8 +54,13 @@ $(document).ready(function() {
     });
   };
 
-  var showEditButton = function() {
+  // Shows edit buttons for maps that belong to current user + profile edit button
+  var showEditButtons = function() {
     $.auth.validateToken().then(function (user) {
+      path       = location.pathname.split("/");
+      user_id    = parseInt(path[2]);
+
+      // edit button for user maps on feed
       userMaps   = $('[data-user-id="' + user.id + '"]');
       editButton = '' +
         '<div>' +
@@ -66,20 +70,12 @@ $(document).ready(function() {
         '</div>';
 
       userMaps.append(editButton);
+
+      // edit buttons for profile + places
+      if (user.id != user_id) {
+        $('.auth-check').toggleClass('hidden show');
+      };
     }).fail(function (resp) {
-      $('.auth-check').toggleClass('hidden show');
-    });
-  };
-
-  var bindEditProfile = function () {
-    $('#profile-edit-button').on('click', function () {
-      var description = $('#profile-description').html();
-
-      $('.profile-info').toggleClass('hidden show');
-      $('.profile-edit').toggleClass('hidden show');
-
-      $('input[name="profile-user-description"]').val(description);
-
     });
   };
 
@@ -95,10 +91,39 @@ $(document).ready(function() {
     });
   };
 
+  var bindEditProfile = function () {
+    $('#profile-edit-button').on('click', function () {
+      var description = $('#profile-description').html();
+
+      $('.profile-info').toggleClass('hidden show');
+      $('.profile-edit').toggleClass('hidden show');
+
+      $('input[name="profile-user-description"]').val(description);
+
+    });
+  };
+
+  var getProfile = function () {
+    path    = location.pathname.split("/");
+    user_id = path[2];
+
+    $.ajax({
+      url:"/api/users/" + user_id,
+      method: "GET",
+      success: function(response, status) {
+        console.log("success", response);
+      },
+      error: function (response, status) {
+        console.log("failed", response);
+      }
+    });
+  };
+
   var init = function () {
     getUserMaps();
     bindEditProfile();
     bindSaveProfile();
+    getProfile();
   };
 
   init();
