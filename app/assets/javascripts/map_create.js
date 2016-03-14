@@ -8,16 +8,11 @@ $(document).ready(function() {
       '<div class="form-group">'+
         '<textarea class="form-control" placeholder="Description" rows="2"></textarea>'+
       '</div>'+
-      '</div>';
-
-  var addPlaceButton = '<div id="add-place-button">'+
-        '<button type="button" class="btn btn-primary add-new-place">Add new place</button>'+
-      '</div>';
+    '</div>';
 
   var autocompletePlaceField = function() {
-    var lastInput = $('.place-name-field').last()[0];
-    console.log(lastInput);
-    var autocomplete = new google.maps.places.Autocomplete(lastInput);
+    var lastInput = $('.place-name-field').last();
+    var autocomplete = new google.maps.places.Autocomplete(lastInput[0]);
     google.maps.event.addDomListener(window, 'load', autocomplete);
     google.maps.event.addListener(autocomplete, 'place_changed', function(){
       var place = autocomplete.getPlace();
@@ -26,6 +21,7 @@ $(document).ready(function() {
         latitude: place.geometry.location.lat(),
         longitude: place.geometry.location.lng()
       });
+      console.log(lastInput.data());
     });
   };
 
@@ -43,8 +39,7 @@ $(document).ready(function() {
   };
 
   var bindAddPlaceButton = function() {
-    $('#add-place-button').off().on('click', function(e){
-      console.log('hi')
+    $('.add-new-place').on('click', function(e){
       e.preventDefault();
       appendNewPlace();
     });
@@ -87,12 +82,15 @@ $(document).ready(function() {
 
   var noToCategories = function() {
     $('#categoryOption').hide();
+    $('.add-new-place').show();
     appendNewPlace();
   };
 
   var init = function() {
     bindYesButton();
     bindNoButton();
+    $('.add-new-place').hide();
+    bindAddPlaceButton();
   };
 
   init();
