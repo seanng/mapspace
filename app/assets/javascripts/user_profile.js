@@ -39,8 +39,8 @@ $(document).ready(function() {
   };
 
   var getUserMaps = function () {
-    URL     = location.pathname.split("/");
-    user_id = URL[2];
+    path    = location.pathname.split("/");
+    user_id = path[2];
 
     $.ajax({
       url:"/api/users/" + user_id + "/maps",

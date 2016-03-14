@@ -32,7 +32,6 @@ $(document).ready(function() {
       url: '/filters?searchInput=' + searchInput,
       success: function(response1, status){
         $('main').html(response1);
-        console.log ("hiiiiiii", response1);
         $('#searchField').html(searchInput);
         populateFilterPage(searchInput);
       },
