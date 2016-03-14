@@ -3,6 +3,7 @@ $(document).ready(function() {
   $.auth.validateToken().then(function(user){
     console.log('authenticated');
     $('.nav-link').eq(0).hide();
+    $('#profile-url').attr('href', '/profile/' + user.id);
   }).fail(function(resp){
     console.log('not authenticated', resp);
     $('.dropdown-toggle').eq(0).hide();

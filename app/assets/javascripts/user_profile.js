@@ -41,20 +41,22 @@ $(document).ready(function() {
     path    = location.pathname.split("/");
     user_id = path[2];
 
-    $.ajax({
-      url:"/api/users/" + user_id + "/maps",
-      method: "GET",
-      success: function(response, status) {
-        displayUserMaps(response);
-        showEditButtons();
-      },
-      error: function (response, status) {
-        console.log(response);
-      }
-    });
+    if (user_id) {
+      $.ajax({
+        url:"/api/users/" + user_id + "/maps",
+        method: "GET",
+        success: function(response, status) {
+          displayUserMaps(response);
+          showEditButtons();
+        },
+        error: function (response, status) {
+          console.log(response);
+        }
+      });
+    };
   };
 
-  // Shows edit buttons for maps that belong to current user + profile edit button
+  // Shows edit buttons for maps that belong to current user + profile info edit button
   var showEditButtons = function() {
     $.auth.validateToken().then(function (user) {
       path       = location.pathname.split("/");
@@ -76,6 +78,9 @@ $(document).ready(function() {
         $('.auth-check').toggleClass('hidden show');
       };
     }).fail(function (resp) {
+      $('.auth-check').toggleClass('hidden show');
+      // this works when signed in, but not when signed out -________-
+      // works sometimes :p
     });
   };
 
@@ -92,14 +97,15 @@ $(document).ready(function() {
   };
 
   var bindEditProfile = function () {
-    $('#profile-edit-button').on('click', function () {
-      var description = $('#profile-description').html();
+    $('#profile-edit-button').on('click', function (e) {
+      console.log('her');
+      e.preventDefault();
+      var description = $('#profile-caption').html();
 
       $('.profile-info').toggleClass('hidden show');
       $('.profile-edit').toggleClass('hidden show');
 
       $('input[name="profile-user-description"]').val(description);
-
     });
   };
 
@@ -107,13 +113,14 @@ $(document).ready(function() {
     path    = location.pathname.split("/");
     user_id = path[2];
 
-    $.ajax({
-      method: 'GET',
-      url: "/api/users/" + user_id,
-    }).done(function(resp) {
-      console.log(resp);
-      $('#profile-header').append(resp);
-    });
+    if (user_id) {
+      $.ajax({
+        method: 'GET',
+        url: "/api/users/" + user_id,
+      }).done(function(resp) {
+        $('#profile-header').append(resp);
+      });
+    };
   };
 
   var init = function () {
