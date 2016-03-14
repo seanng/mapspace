@@ -58,7 +58,6 @@ $(document).ready(function() {
   var showEditButton = function() {
     $.auth.validateToken().then(function (user) {
       userMaps   = $('[data-user-id="' + user.id + '"]');
-
       editButton = '' +
         '<div>' +
           '<button type="button" class="btn btn-default btn-sm show profile-info">' +
@@ -69,8 +68,8 @@ $(document).ready(function() {
       userMaps.append(editButton);
     }).fail(function (resp) {
       $('.auth-check').toggleClass('hidden show');
-  });
-  }
+    });
+  };
 
   var bindEditProfile = function () {
     $('#profile-edit-button').on('click', function () {
