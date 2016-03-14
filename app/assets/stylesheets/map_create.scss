@@ -1,9 +1,26 @@
-.col-xs-8.place-name-div {
-  padding-left: 0px
+.form-group.col-xs-8 {
+  padding-left: 0px;
+}
+
+.form-group.col-xs-4 {
+  margin-top: 8px;
+  margin-bottom: 0px;
 }
 
 .pin-entry {
-  border-bottom: 1px dotted silver;
+  border-top: 1px dotted silver;
   margin-bottom: 10px;
-  padding-top: 5px;
+  padding-top: 15px;
+}
+
+.create-map-button {
+  float: right;
+}
+
+.btn.delete-entry {
+  float: right;
+}
+
+input.category-name {
+  background: lightblue;
 }

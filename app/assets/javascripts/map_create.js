@@ -1,14 +1,33 @@
 $(document).ready(function() {
 
+  var mapHasCategories = false;
+
   var newPlace = '<div class="pin-entry">'+
       '<div class="col-xs-8 place-name-div form-group">'+
         '<input type="input" class="form-control place-name-field" placeholder="Place name">'+
       '</div>'+
-      '<button class="btn btn-warning delete-entry" type="submit">Trash this</button>'+
+      '<button class="btn btn-warning delete-entry" type="submit">Delete place</button>'+
       '<div class="form-group">'+
-        '<textarea class="form-control" placeholder="Description" rows="2"></textarea>'+
+        '<textarea class="form-control place-description" placeholder="Description" rows="2"></textarea>'+
       '</div>'+
     '</div>';
+
+  var newCategory = '<div class="category-entry form-group">'+
+    '<div class="form-group col-xs-8">'+
+      '<input type="text" class="form-control category-name" placeholder="Category name">'+
+    '</div>'+
+    '<button type="button" class="btn btn-danger remove-category">Remove category</button>'+
+    '<div class="pin-entry">'+
+      '<div class="col-xs-8 place-name-div form-group">'+
+        '<input type="input" class="form-control place-name-field" placeholder="Place name">'+
+      '</div>'+
+      '<button class="btn btn-warning delete-entry" type="submit">Delete place</button>'+
+      '<div class="form-group">'+
+        '<textarea class="form-control place-description" placeholder="Description" rows="2"></textarea>'+
+      '</div>'+
+    '</div>'+
+    '<button type="button" class="btn btn-default add-new-place">Add new place</button>'+
+  '</div>';
 
   var autocompletePlaceField = function() {
     var lastInput = $('.place-name-field').last();
@@ -19,19 +38,65 @@ $(document).ready(function() {
       lastInput.data('pindata', {
         getID: place.place_id,
         latitude: place.geometry.location.lat(),
-        longitude: place.geometry.location.lng()
+        longitude: place.geometry.location.lng(),
+        phone_number: place.formatted_phone_number,
+        address: place.formatted_address
       });
+      console.log(place);
       console.log(lastInput.data());
     });
   };
 
-  var appendNewPlace = function(){
-    $('#all-entries').append(newPlace);
-    autocompletePlaceField();
-    bindDeleteEntryButton();
+  var appendNewCategory = function() {
+    $('#all-additions').append(newCategory);
+    bindAddPlaceButton();
+    bindDeletePlaceButton();
+    bindRemoveCategory();
   };
 
-  var bindDeleteEntryButton = function() {
+  var addPinsData = function(){
+    $('.pin-entry').each(function(index){
+      var field = $(this).find('.place-name-field');
+      var pinDescription = $(this).find('.place-description').val();
+      var pinCategory = mapHasCategories ? $(this).closest('div.category-entry').val() : null;
+      var pin = {
+        name: field.val(),
+        google_id: field.data().pindata.getID,
+        lat: field.data().pindata.latitude,
+        long: field.data().pindata.longitude,
+        phone_number: field.data().pindata.phone_number,
+        address: field.data().pindata.address,
+        description: pinDescription,
+        category: pinCategory
+      };
+      var pinName = $(this).find('.place-name-field').val();
+      mapInfo.pins.push(pin);
+    });
+  };
+
+  var mapInfo = {
+    title: $('#mapTitle').val(),
+    description: $('#mapDescription').val(),
+    featured: $('#featured-checkbox').is(":checked"),
+    pins: [],
+  };
+
+  var postMap = function(){
+    $.ajax({
+      type: 'POST',
+      data: mapInfo,
+      url: '/api/maps',
+      error: function(response,status){
+        console.log(response);
+      },
+      success: function(response,status){
+        console.log(response);
+        console.log ('successfully created a map!');
+      }
+    });
+  };
+
+  var bindDeletePlaceButton = function() {
     $('.btn-warning.delete-entry').off().on('click', function(e){
       e.preventDefault();
       $(this).parent().remove();
@@ -39,25 +104,12 @@ $(document).ready(function() {
   };
 
   var bindAddPlaceButton = function() {
-    $('.add-new-place').on('click', function(e){
+    $('.add-new-place').off().on('click', function(e){
+      console.log('listening');
       e.preventDefault();
-      appendNewPlace();
-    });
-  };
-
-  var postPlaceInfo = function(placeInfo) {
-    $.ajax({
-      type: 'POST',
-      url: '/api/pins',
-      data: placeInfo,
-      error: function (response, status) {
-        console.log ('there was an error in posting place information.');
-        console.log (response);
-      },
-      success: function (response, status) {
-        console.log ('success posting');
-        console.log (response);
-      }
+      mapHasCategories ? $(this).before(newPlace) : $('#all-additions').append(newPlace);
+      autocompletePlaceField();
+      bindDeletePlaceButton();
     });
   };
 
@@ -68,9 +120,20 @@ $(document).ready(function() {
     });
   };
 
+
+  var bindAddNewCategory = function(){
+    $('.add-new-category').off().on('click', function(e){
+      e.preventDefault();
+      appendNewCategory();
+    });
+  };
+
   var yesToCategories = function() {
     $('#categoryOption').hide();
-
+    mapHasCategories = true;
+    $('.add-new-category').show();
+    $('.create-map-button').show();
+    appendNewCategory();
   };
 
   var bindNoButton = function() {
@@ -83,14 +146,33 @@ $(document).ready(function() {
   var noToCategories = function() {
     $('#categoryOption').hide();
     $('.add-new-place').show();
-    appendNewPlace();
+    $('.create-map-button').show();
+    $('#all-additions').append(newPlace)
+  };
+
+  var bindCreateButton = function() {
+    $('.btn.create-map-button').on('click', function(e){
+      e.preventDefault();
+      addPinsData();
+      postMap();
+    });
+  };
+
+  var bindRemoveCategory = function() {
+    $('.btn.remove-category').on('click', function(e){
+      e.preventDefault();
+      $(this).parent().remove();
+    });
   };
 
   var init = function() {
     bindYesButton();
     bindNoButton();
+    $('.add-new-category').hide();
     $('.add-new-place').hide();
+    $('.create-map-button').hide();
     bindAddPlaceButton();
+    bindAddNewCategory();
   };
 
   init();
