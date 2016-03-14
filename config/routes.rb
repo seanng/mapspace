@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   get '/filters', to: 'page#filters'
   get '/profile/:user_id', to: 'page#user_profile'
   get '/maps/create', to: 'page#map_create'
-  get '/maps/:map_id', to: 'page#map_show'
+  get '/profile/:user_id/maps/:map_id', to: 'page#map_show'
   get '/maps/:map_id/comments', to: 'page#map_comments'
 
   #API routes
