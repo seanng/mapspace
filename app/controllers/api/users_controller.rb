@@ -2,7 +2,6 @@ module Api
   class UsersController < ApplicationController
 
   def show
-    puts "hey"
     render layout: false
   end
 
