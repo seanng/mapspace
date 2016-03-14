@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   get '/filters', to: 'page#filters'
   get '/profile/:user_id', to: 'page#user_profile'
   get '/maps/create', to: 'page#map_create'
-  get '/maps/:map_id', to: 'page#map_show'
+  get '/profile/:user_id/maps/:map_id', to: 'page#map_show'
   get '/maps/:map_id/comments', to: 'page#map_comments'
 
   #API routes
@@ -15,7 +15,7 @@ Rails.application.routes.draw do
     resources :likes, only: [:create, :destroy]
     #MAPS
     get '/maps/filter', to: 'maps#filter'
-    get '/users/maps/', to: 'maps#user_maps'
+    get '/users/:user_id/maps/', to: 'maps#user_maps'
     resources :maps, only: [:index, :create, :show, :update, :destroy] do
     #COMMENTS
       resources :comments, only: [:index, :create, :destroy]

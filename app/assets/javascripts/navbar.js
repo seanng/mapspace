@@ -4,9 +4,8 @@ $(document).ready(function() {
     console.log('authenticated');
     $('.nav-link').eq(0).hide();
   }).fail(function(resp){
-    console.log('not authenticated');
+    console.log('not authenticated', resp);
     $('.dropdown-toggle').eq(0).hide();
-    console.log(resp);
   });
 
   var bindSignOut = function () {
@@ -33,7 +32,6 @@ $(document).ready(function() {
       url: '/filters?searchInput=' + searchInput,
       success: function(response1, status){
         $('main').html(response1);
-        console.log ("hiiiiiii", response1);
         $('#searchField').html(searchInput);
         populateFilterPage(searchInput);
       },
@@ -105,7 +103,6 @@ $(document).ready(function() {
   var init = function () {
     bindSignOut();
     searchEvent();
-    populateFilterPage(searchInput);
   };
 
   init();
