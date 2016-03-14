@@ -119,6 +119,8 @@ $(document).ready(function() {
         url: "/api/users/" + user_id,
       }).done(function(resp) {
         $('#profile-header').append(resp);
+        bindEditProfile();
+        bindSaveProfile();
       });
     }
   };
