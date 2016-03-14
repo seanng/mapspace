@@ -1,6 +1,6 @@
 15.times do
   password = Faker::Internet.password(8)
-  user = User.create(email: Faker::Internet.email, password: password, password_confirmation: password)
+  user = User.create(email: Faker::Internet.email, name: Faker::Internet.user_name, password: password, password_confirmation: password)
 
   5.times do
     map = Map.create(title: Faker::Name.title, description: Faker::Lorem.sentence, user_id: user.id, featured: Faker::Boolean.boolean(0.1))

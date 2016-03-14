@@ -11,6 +11,7 @@ $(document).ready(function () {
   var signwhat1 = function(){
     $('#signwhat1').click(function(e){
       e.preventDefault();
+      $('.uName').toggleClass('hidden show');
       $('#lower-modal-text').html("Already have an account? <span id='signwhat2'><a>Sign In!</a></span>");
       button.html('Sign Up');
       $('#modal-header-label').html('Sign Up');
@@ -23,6 +24,7 @@ $(document).ready(function () {
   var signwhat2 = function(){
     $('#signwhat2').click(function(e){
       e.preventDefault();
+      $('.uName').toggleClass('hidden show');
       $('#lower-modal-text').html("Don't have an account? <span id='signwhat1'><a>Sign Up!</a></span>");
       button.html('Sign In');
       $('#modal-header-label').html('Sign In');
@@ -66,6 +68,7 @@ $(document).ready(function () {
       } else {
         // Sign up
         $.auth.emailSignUp({
+          name      : $('#uName').val(),
           email     : $('#uLogin').val(),
           password  : $('#uPassword').val(),
           password_confirmation : $('#uPassword').val()

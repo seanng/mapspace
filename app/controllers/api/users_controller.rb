@@ -2,7 +2,13 @@ module Api
   class UsersController < ApplicationController
 
   def show
-    render 'show.jbuilder'
+    puts "hey"
+    render layout: false
+  end
+
+  def update
+
+    # User.update(params[:id], user_params)
   end
 
   def image
@@ -12,7 +18,7 @@ module Api
     if @user.save
 
       # render 'show.jbuilder', :locals => {user: @user}
-      render json: {email: @email, description: @description, }
+      render json: {email: @email, description: @description }
     else
 
     end

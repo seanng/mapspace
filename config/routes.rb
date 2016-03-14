@@ -25,7 +25,7 @@ Rails.application.routes.draw do
     resources :pins, only: [:create, :update, :destroy]
 
     #USERS
-    resources :users, only: [:show] do
+    resources :users, only: [:show, :update] do
       post '/image', to: 'users#image'
     end
   end
