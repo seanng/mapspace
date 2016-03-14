@@ -99,10 +99,18 @@ $(document).ready(function() {
     });
   };
 
+  var createMapButton = function(){
+    $('.navbar-btn').on('click', function(e){
+      e.preventDefault();
+      console.log('listening');
+      window.location.href = '/maps/create';
+    });
+  };
 
   var init = function () {
     bindSignOut();
     searchEvent();
+    createMapButton();
   };
 
   init();
