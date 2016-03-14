@@ -1,6 +1,7 @@
 $(document).ready(function() {
 
   var displayUserMaps = function (data) {
+    console.log("user maps", data);
     data.forEach(function (item) {
       var user        = item.user.name;
       var userID      = item.user.user_id;
@@ -33,13 +34,16 @@ $(document).ready(function() {
         '<div class="col-xs-3 map-tag"><h5>' + tags + ' tags</h5></div>' +
       '</div>';
 
-      $('.home-feed').append(newMap);
+      $('.profile-feed').append(newMap);
     });
   };
 
-  var getMaps = function () {
+  var getUserMaps = function () {
+    URL     = location.pathname.split("/");
+    user_id = URL[2];
+
     $.ajax({
-      url:"/api/maps",
+      url:"/api/users/" + user_id + "/maps",
       method: "GET",
       success: function(response, status) {
         displayUserMaps(response);
@@ -49,8 +53,6 @@ $(document).ready(function() {
       }
     });
   };
-
-
 
   var bindEditProfile = function () {
     $('#profile-edit-button').on('click', function () {
@@ -77,6 +79,7 @@ $(document).ready(function() {
   };
 
   var init = function () {
+    getUserMaps();
     bindEditProfile();
     bindSaveProfile();
   };

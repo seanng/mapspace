@@ -104,7 +104,6 @@ $(document).ready(function() {
   var init = function () {
     bindSignOut();
     searchEvent();
-    populateFilterPage(searchInput);
   };
 
   init();
