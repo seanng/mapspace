@@ -18,6 +18,26 @@ module Api
     end
 
     def create
+      user_id = params[:user_id].to_i
+      map_title = params[:title]
+      map_description = params[:description]
+      featured = params[:featured]
+      all_pins = params[:pins]
+
+      User.find(user_id).maps.create(title: map_title, description: map_description, featured: featured)
+
+      all_pins.each do |pin|
+        name = pin[:name]
+        google_id = pin[:google_id]
+        lat = pin[:lat]
+        long = pin[:long]
+        description = pin[:description]
+        category = pin[:category]
+        address = pin[:address]
+        phone_number = pin[:phone_number]
+        place = Place.find_or_create_by(name: name, googleID: google_id, lat: lat, long: long, address: address, phone_number: phone_number)
+        Map.last.pins.create(description: description, category: category, place_id: place.id)
+      end
 
     end
 

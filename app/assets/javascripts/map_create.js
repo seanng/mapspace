@@ -1,5 +1,9 @@
 $(document).ready(function() {
 
+  $.auth.validateToken().then(function(user){
+    mapInfo.user_id = user.id;
+  });
+
   var mapHasCategories = false;
 
   var newPlace = '<div class="pin-entry">'+
@@ -51,10 +55,14 @@ $(document).ready(function() {
     $('#all-additions').append(newCategory);
     bindAddPlaceButton();
     bindDeletePlaceButton();
+    autocompletePlaceField();
     bindRemoveCategory();
   };
 
-  var addPinsData = function(){
+  var addData = function(){
+    mapInfo.title = $('#mapTitle').val();
+    mapInfo.description = $('#mapDescription').val();
+    mapInfo.featured = $('#featured-checkbox').is(":checked");
     $('.pin-entry').each(function(index){
       var field = $(this).find('.place-name-field');
       var pinDescription = $(this).find('.place-description').val();
@@ -69,14 +77,14 @@ $(document).ready(function() {
         description: pinDescription,
         category: pinCategory
       };
-      var pinName = $(this).find('.place-name-field').val();
       mapInfo.pins.push(pin);
     });
   };
 
   var mapInfo = {
-    title: $('#mapTitle').val(),
-    description: $('#mapDescription').val(),
+    user_id: null,
+    title: null,
+    description: null,
     featured: $('#featured-checkbox').is(":checked"),
     pins: [],
   };
@@ -108,13 +116,29 @@ $(document).ready(function() {
       console.log('listening');
       e.preventDefault();
       mapHasCategories ? $(this).before(newPlace) : $('#all-additions').append(newPlace);
-      autocompletePlaceField();
-      bindDeletePlaceButton();
+
+    var lastInput = $(this).parent().find('.place-name-field').last();
+    var autocomplete = new google.maps.places.Autocomplete(lastInput[0]);
+
+    google.maps.event.addDomListener(window, 'load', autocomplete);
+
+    google.maps.event.addListener(autocomplete, 'place_changed', function(){
+      var place = autocomplete.getPlace();
+      lastInput.data('pindata', {
+        getID: place.place_id,
+        latitude: place.geometry.location.lat(),
+        longitude: place.geometry.location.lng(),
+        phone_number: place.formatted_phone_number,
+        address: place.formatted_address
+      });
+    });
+
+    bindDeletePlaceButton();
     });
   };
 
   var bindYesButton = function() {
-    $('.btn-success').on('click', function(e){
+    $('.btn-success.yesss').on('click', function(e){
       e.preventDefault();
       yesToCategories();
     });
@@ -137,7 +161,7 @@ $(document).ready(function() {
   };
 
   var bindNoButton = function() {
-    $('.btn-danger').on('click', function(e){
+    $('.btn-danger.nooo').on('click', function(e){
       e.preventDefault();
       noToCategories();
     });
@@ -147,14 +171,19 @@ $(document).ready(function() {
     $('#categoryOption').hide();
     $('.add-new-place').show();
     $('.create-map-button').show();
-    $('#all-additions').append(newPlace)
+    $('#all-additions').append(newPlace);
   };
 
   var bindCreateButton = function() {
     $('.btn.create-map-button').on('click', function(e){
       e.preventDefault();
-      addPinsData();
-      postMap();
+      if (mapInfo.user_id){
+        $(this).removeAttr('data-target');
+        $(this).removeAttr('data-toggle');
+        console.log ('logged in');
+        addData();
+        postMap();
+      }
     });
   };
 
@@ -173,6 +202,7 @@ $(document).ready(function() {
     $('.create-map-button').hide();
     bindAddPlaceButton();
     bindAddNewCategory();
+    bindCreateButton();
   };
 
   init();
