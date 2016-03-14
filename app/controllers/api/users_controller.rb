@@ -2,7 +2,8 @@ module Api
   class UsersController < ApplicationController
 
   def show
-    render json: User.find(params[:id])
+    puts "hey"
+    render layout: false
   end
 
   def update
@@ -17,7 +18,7 @@ module Api
     if @user.save
 
       # render 'show.jbuilder', :locals => {user: @user}
-      render json: {email: @email, description: @description, }
+      render json: {email: @email, description: @description }
     else
 
     end

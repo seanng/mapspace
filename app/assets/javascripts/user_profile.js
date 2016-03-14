@@ -108,14 +108,11 @@ $(document).ready(function() {
     user_id = path[2];
 
     $.ajax({
-      url:"/api/users/" + user_id,
-      method: "GET",
-      success: function(response, status) {
-        console.log("success", response);
-      },
-      error: function (response, status) {
-        console.log("failed", response);
-      }
+      method: 'GET',
+      url: "/api/users/" + user_id,
+    }).done(function(resp) {
+      console.log(resp);
+      $('#profile-header').append(resp);
     });
   };
 
