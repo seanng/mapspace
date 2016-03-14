@@ -1,6 +1,7 @@
-$(document).ready(function () {
+$(document).ready(function() {
 
-  var displayMaps = function (data) {
+  var displayUserMaps = function (data) {
+    console.log("user maps", data);
     data.forEach(function (item) {
       var user        = item.user.name;
       var userID      = item.user.user_id;
@@ -33,16 +34,19 @@ $(document).ready(function () {
         '<div class="col-xs-3 map-tag"><h5>' + tags + ' tags</h5></div>' +
       '</div>';
 
-      $('.home-feed').append(newMap);
+      $('.profile-feed').append(newMap);
     });
   };
 
-  var getMaps = function () {
+  var getUserMaps = function () {
+    path    = location.pathname.split("/");
+    user_id = path[2];
+
     $.ajax({
-      url:"/api/maps",
+      url:"/api/users/" + user_id + "/maps",
       method: "GET",
       success: function(response, status) {
-        displayMaps(response);
+        displayUserMaps(response);
       },
       error: function (response, status) {
         console.log(response);
@@ -50,16 +54,34 @@ $(document).ready(function () {
     });
   };
 
+  var bindEditProfile = function () {
+    $('#profile-edit-button').on('click', function () {
+      var description = $('#profile-description').html();
 
-  var bindFilterWeekly = function() {
-    $('#weekly').on('click', function (e) {
-      e.preventDefault();
+      $('.profile-info').toggleClass('hidden show');
+      $('.profile-edit').toggleClass('hidden show');
+
+      $('input[name="profile-user-description"]').val(description);
+
     });
   };
 
-  var init = function() {
-    bindFilterWeekly();
-    getMaps();
+  var bindSaveProfile = function () {
+    $('#profile-save-button').on('click', function () {
+      var description = $('input[name="profile-user-description"]').val();
+
+      $('.profile-info').toggleClass('hidden show');
+      $('.profile-edit').toggleClass('hidden show');
+
+      $('#profile-description').html(description);
+
+    });
+  };
+
+  var init = function () {
+    getUserMaps();
+    bindEditProfile();
+    bindSaveProfile();
   };
 
   init();

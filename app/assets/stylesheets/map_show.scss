@@ -1,0 +1,26 @@
+/* need to set heights for map-view and place-view using media queries */
+
+.map-view {
+  padding: 0 !important;
+  border: 1px solid black;
+  overflow: none
+}
+
+.places-view {
+  height: 1000px;
+  padding: 0 !important;
+  border: 1px solid black;
+  overflow: scroll;
+}
+
+#mv-map {
+  border-bottom: 1px solid black;
+}
+
+.place-row {
+  border-bottom: 1px solid black;
+}
+
+#place-travel-info > * {
+  display: inline;
+}
