@@ -8,11 +8,14 @@ $(document).ready(function() {
       '<div class="form-group">'+
         '<textarea class="form-control" placeholder="Description" rows="2"></textarea>'+
       '</div>'+
-      '<button type="button" class="btn btn-primary add-new-place">Add new place</button>'+
-    '</div>';
+      '</div>';
+
+  var addPlaceButton = '<div id="add-place-button">'+
+        '<button type="button" class="btn btn-primary add-new-place">Add new place</button>'+
+      '</div>';
 
   var autocompletePlaceField = function() {
-    var lastInput = $('.place-name-field').last();
+    var lastInput = $('.place-name-field').last()[0];
     console.log(lastInput);
     var autocomplete = new google.maps.places.Autocomplete(lastInput);
     google.maps.event.addDomListener(window, 'load', autocomplete);
@@ -30,7 +33,6 @@ $(document).ready(function() {
     $('#all-entries').append(newPlace);
     autocompletePlaceField();
     bindDeleteEntryButton();
-    bindAddPlaceButton();
   };
 
   var bindDeleteEntryButton = function() {
@@ -41,9 +43,9 @@ $(document).ready(function() {
   };
 
   var bindAddPlaceButton = function() {
-    $('.add-new-place').off().on('click', function(e){
+    $('#add-place-button').off().on('click', function(e){
+      console.log('hi')
       e.preventDefault();
-      $(this).remove();
       appendNewPlace();
     });
   };
