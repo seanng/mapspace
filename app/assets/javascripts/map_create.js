@@ -92,7 +92,8 @@ $(document).ready(function() {
   var postMap = function(){
     $.ajax({
       type: 'POST',
-      data: mapInfo,
+      contentType: 'application/json',
+      data: JSON.stringify(mapInfo),
       url: '/api/maps',
       error: function(response,status){
         console.log(response);
@@ -100,6 +101,7 @@ $(document).ready(function() {
       success: function(response,status){
         console.log(response);
         console.log ('successfully created a map!');
+        window.location.href ='/maps/:map_id';
       }
     });
   };
