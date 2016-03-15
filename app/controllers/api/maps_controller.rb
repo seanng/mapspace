@@ -47,7 +47,11 @@ module Api
     end
 
     def show
+      map_id = params[:id].to_i
+      map = Map.includes(:user, :pins, :places, :likes, comments: [:user]).find(map_id)
+      map = map.as_json(include: [:user, :pins, :places, :likes, comments: {include: {user: {only: :name}}}])
 
+      render json: map
     end
 
     def update
