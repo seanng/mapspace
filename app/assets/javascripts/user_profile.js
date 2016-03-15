@@ -81,7 +81,7 @@ $(document).ready(function() {
             '<li class="map-stats-comments"><a href="/maps/' + mapID + '/comments">' + comments + '</a> comments</li>' +
             '<ul class="map-stats-user">' +
               '<li class="map-stats-date">' + dateSince + ' days ago</li>' +
-              '<li class="map-stats-owner">by ' + '<a href="/profile/' + userID + '">' + user + '</a></li>' +
+              '<li class="map-stats-owner"> by ' + '<a href="/profile/' + userID + '">' + user + '</a></li>' +
             '</ul>' +
           '</ul>' +
         '</div>' +

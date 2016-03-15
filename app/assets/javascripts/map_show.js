@@ -65,14 +65,14 @@ $(document).ready(function() {
 
     var placeHTML = '<div class="row place-row">'+
                       '<div class="col-xs-4 mv-place-name">'+
-                        '<h3 class="mv-place-name-data"' +
+                        '<h4 class="mv-place-name-data"' +
                           'data-lat="'+     pin.place.lat     +'"' +
                           'data-long="'+    pin.place.long    +'"' +
                           'data-name="'+    pin.place.name    +'"' +
                           'data-address="'+ pin.place.address +'"' +
                           'data-phone="'+   pin.place.phone   +'"' +
                           'data-website="'+   pin.place.website +'">' +
-                          pin.place.name +'</h3>'+
+                          pin.place.name +'</h4>'+
                       '</div>'+
                       '<div class="col-xs-8 mv-place-description">'+
                         '<p class="pin-description">'+ pin.description +'</p>'+
