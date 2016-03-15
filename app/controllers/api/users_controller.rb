@@ -6,8 +6,8 @@ module Api
   end
 
   def update
-
-    # User.update(params[:id], user_params)
+    User.update(params[:id], :caption => params[:caption])
+    head :ok, content_type: "text/html"
   end
 
   def image

@@ -2,24 +2,37 @@ $(document).ready(function() {
 
   var bindSaveProfile = function () {
     $('#profile-save-button').on('click', function () {
-      var description = $('input[name="profile-user-description"]').val();
+      var caption = $('input[name="profile-user-caption"]').val();
 
       $('.profile-info').toggleClass('hidden show');
       $('.profile-edit').toggleClass('hidden show');
 
-      $('#profile-description').html(description);
+      $('#profile-caption').html(caption);
+
+      path    = location.pathname.split("/");
+      user_id = path[2];
+
+      $.ajax({
+      method: "PUT",
+      url:"/api/users/" + user_id,
+      data: { caption: caption },
+      success: function (response, status) {},
+      error: function (response, status) {
+        console.log(response);
+      }
+      });
     });
   };
 
   var bindEditProfile = function () {
     $('#profile-edit-button').on('click', function (e) {
       e.preventDefault();
-      var description = $('#profile-caption').html();
+      var caption = $('#profile-caption').html();
 
       $('.profile-info').toggleClass('hidden show');
       $('.profile-edit').toggleClass('hidden show');
 
-      $('input[name="profile-user-description"]').val(description);
+      $('input[name="profile-user-caption"]').val(caption);
     });
   };
 
@@ -50,9 +63,9 @@ $(document).ready(function() {
       var likes       = item.likes.length;
       var comments    = item.comments.length;
 
-      var dateRaw     = moment([item.created_at]); // need to check this
+      var dateRaw     = item.created_at;
       var dateCurrent = moment();
-      var dateSince   = dateCurrent.diff(dateRaw);
+      var dateSince   = dateCurrent.diff(dateRaw, 'days');
 
       var newMap = '' +
       '<div class="row map-item" data-user-id="' + userID + '">' +
@@ -71,6 +84,7 @@ $(document).ready(function() {
           '</ul>' +
         '</div>' +
         '<div class="col-xs-3 map-tag"><h5>' + tags + '</h5>' +
+          // map edit button -- do we want to only edit/delete on map pages?
           '<div>' +
             '<button type="button" class="btn btn-default btn-sm auth-check show profile-info">' +
               '<span class="glyphicon glyphicon-edit show profile-info" id="profile-edit-button" aria-hidden="true"></span></button>' +
@@ -88,8 +102,8 @@ $(document).ready(function() {
     user_id = path[2];
 
     $.ajax({
-      url:"/api/users/" + user_id + "/maps",
       method: "GET",
+      url:"/api/users/" + user_id + "/maps",
       success: function(response, status) {
         displayUserMaps(response);
         showEditButtons();
