@@ -120,14 +120,18 @@ $(document).ready(function() {
       }).done(function(resp) {
         $('#profile-header').append(resp);
       });
-    };
+    }
   };
 
   var init = function () {
-    getUserMaps();
-    bindEditProfile();
-    bindSaveProfile();
-    getProfile();
+    var splitPath = location.pathname.split('/');
+  if (splitPath[1] === 'profile' && parseInt(splitPath[2]) !== isNaN && !splitPath[3]) {
+      console.log ('userpage');
+      getUserMaps();
+      bindEditProfile();
+      bindSaveProfile();
+      getProfile();
+    }
   };
 
   init();
