@@ -2,12 +2,15 @@ module Api
   class MapsController < ApplicationController
     before_action :get_user, only: [:user_maps]
     def user_maps
-
       render json: @user.maps.includes(:comments, :likes, :user), :include => [:comments, :likes, :user]
     end
 
     def index
       render json: Map.includes(:comments, :likes, :user).where(featured: true).order(created_at: :desc), :include => [:comments, :likes, :user]
+    end
+
+    def get_popular_maps
+      render json: Map.joins("left outer join likes on maps.id = likes.map_id").where(featured: true).group("maps.id").order("count(likes.id) DESC"), :include => [:comments, :likes, :user]
     end
 
     def filter
