@@ -7,7 +7,7 @@ module Api
     end
 
     def index
-      render json: Map.includes(:comments, :likes, :user).where(featured: true), :include => [:comments, :likes, :user]
+      render json: Map.includes(:comments, :likes, :user).where(featured: true).order(created_at: :desc), :include => [:comments, :likes, :user]
     end
 
     def filter
@@ -27,7 +27,6 @@ module Api
       User.find(user_id).maps.create(title: map_title, description: map_description, featured: featured)
 
       all_pins.each do |pin|
-        puts "hiiiiii"
         puts pin
         name = pin[:name]
         puts name

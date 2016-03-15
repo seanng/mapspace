@@ -40,6 +40,7 @@ $(document).ready(function() {
   var showEditButtons = function() {
     $.auth.validateToken().then(function (user) {
       path       = location.pathname.split("/");
+      console.log(path);
       user_id    = parseInt(path[2]);
 
       // show profile and map edit buttons if they belong to logged in user
@@ -69,9 +70,10 @@ $(document).ready(function() {
 
       var newMap = '' +
       '<div class="row map-item" data-user-id="' + userID + '">' +
-        '<div class="col-xs-3 likes">' +
-          '<span class="glyphicon glyphicon-star" id="liked-star" aria-hidden="true"></span>' +
-          '<h3 id="number-of-likes">' + likes + '</h3>' +
+        '<div class="col-xs-3">' +
+          '<div class="likes">' +
+            '<h3 id="number-of-likes">' + likes + '</h3>' +
+          '</div>' +
         '</div>' +
         '<div class="col-xs-6 map-about">' +
           '<h3><a href="/maps/' + mapID + '">' + title + '</a></h3>' +

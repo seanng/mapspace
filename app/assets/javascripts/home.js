@@ -16,9 +16,10 @@ $(document).ready(function () {
 
       var newMap = '' +
       '<div class="row map-item" data-user-id="' + userID + '">' +
-        '<div class="col-xs-3 likes">' +
-          '<span class="glyphicon glyphicon-star" id="liked-star" aria-hidden="true"></span>' +
-          '<h3 id="number-of-likes">' + likes + '</h3>' +
+        '<div class="col-xs-3">' +
+          '<div class="likes">' +
+            '<h3 id="number-of-likes">' + likes + '</h3>' +
+          '</div>' +
         '</div>' +
         '<div class="col-xs-6 map-about">' +
           '<h3><a href="/maps/' + mapID + '">' + title + '</a></h3>' +
@@ -51,14 +52,15 @@ $(document).ready(function () {
   };
 
 
-  var bindFilterWeekly = function() {
-    $('#weekly').on('click', function (e) {
+  var bindFilterPopularButton = function() {
+    $('#popular').on('click', function (e) {
       e.preventDefault();
+
     });
   };
 
   var init = function() {
-    bindFilterWeekly();
+    bindFilterPopularButton();
     getMaps();
   };
 
