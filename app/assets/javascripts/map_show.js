@@ -11,8 +11,11 @@ $(document).ready(function() {
     });
 
     marker.addListener('click', function(){
-      //open modal?
+      console.log($('[data-name="'+pin.place.name+'"]'))
 
+      $('[data-name="'+pin.place.name+'"]')[0].click(function () {
+        console.log("YEAS!");
+      });
     });
   };
 
@@ -100,18 +103,25 @@ $(document).ready(function() {
       var $modal = $('#place-modal');
       $modal.modal('show');
 
+      // add data to modal
       $('#place-modal-name').text(place.name);
       $('#place-modal-address').text(place.address);
       $('#place-modal-phone').text(place.phone);
       $('#place-modal-website').text(place.website);
 
+      // add map to modal
       var map = new google.maps.Map(document.getElementById('place-modal-map'), {
         center: {lat: place.lat, lng: place.long},
         scrollwheel: false,
-        zoom: 12
+        zoom: 4
       });
 
-      console.log(map)
+      // place marker on marp
+      var marker = new google.maps.Marker({
+        position: {lat: place.lat, lng: place.long},
+        map: map,
+        title: place.name
+      });
     });
   };
 
