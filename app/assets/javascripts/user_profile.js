@@ -60,7 +60,7 @@ $(document).ready(function() {
       var userID      = item.user.id;
       var mapID       = item.id;
       var title       = item.title;
-      var tags        = item.tags;
+      var tags        = item.tags ? "#"+item.tags : "";
       var likes       = item.likes.length;
       var comments    = item.comments.length;
 

@@ -24,6 +24,7 @@
   padding-top: 9px;
   padding-bottom: 9px;
   padding-left: 35px;
+  padding-right: 65px;
   background: white;
 }
 
@@ -54,6 +55,14 @@
   margin-top: 10px;
 }
 
+#filter-tags {
+  float: right;
+}
+
+.col-xs-8.map-about {
+  padding-right: 30px;
+}
+
 .map-stats {
   padding-left: 0;
 }
@@ -64,6 +73,7 @@
 
 .map-stats-user {
   padding-left: 0;
+  float: right;
 }
 
 .map-stats-user > li {
