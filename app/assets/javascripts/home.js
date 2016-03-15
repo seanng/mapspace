@@ -10,7 +10,7 @@ $(document).ready(function () {
       var likes       = item.likes.length;
       var comments    = item.comments.length;
 
-      var dateRaw     = item.created_at; // need to check this
+      var dateRaw     = item.created_at;
       var dateCurrent = moment();
       var dateSince   = dateCurrent.diff(dateRaw, 'days');
 
