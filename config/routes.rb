@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     resources :likes, only: [:create, :destroy]
     #MAPS
     get '/maps/filter', to: 'maps#filter'
+    get '/maps/popular', to: 'maps#get_popular_maps'
     get '/users/:user_id/maps/', to: 'maps#user_maps'
     resources :maps, only: [:index, :create, :show, :update, :destroy] do
     #COMMENTS
