@@ -2,12 +2,24 @@ $(document).ready(function() {
   var currentPos;
   var locationAllowed = false;
 
+  var drawMarker = function(map, pin){
+    var latlng = {lat: pin.place.lat, lng: pin.place.long};
+    var marker = new google.maps.Marker({
+      position: latlng,
+      map: map,
+      title: pin.place.name
+    });
+
+    marker.addListener('click', function(){
+      //open modal?
+    });
+  };
+
   var categoryAccordion = function(number) {
     return '<div class="panel panel-default">'+
       '<div class="panel-heading" role="tab" id="heading'+number+'">'+
         '<h4 class="panel-title">'+
           '<a class="catName"role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse'+number+'" aria-expanded="true" aria-controls="collapse'+number+'">'+
-            'Collapsible Group Item #1'+
           '</a>'+
         '</h4>'+
       '</div>'+
@@ -22,8 +34,8 @@ $(document).ready(function() {
   var placeList = function(pin){
     var calculateDistance = function (lat, long) {
       function getDistance(lat1,lon1,lat2,lon2) {
-        var R = 6371; // Radius of the earth in km
-        var dLat = deg2rad(lat2-lat1);  // deg2rad below
+        var R = 6371;
+        var dLat = deg2rad(lat2-lat1);
         var dLon = deg2rad(lon2-lon1);
         var a =
           Math.sin(dLat/2) * Math.sin(dLat/2) +
@@ -31,7 +43,7 @@ $(document).ready(function() {
           Math.sin(dLon/2) * Math.sin(dLon/2)
           ;
         var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-        var d = R * c; // Distance in km
+        var d = R * c;
         return d;
       }
       function deg2rad(deg) {
@@ -46,17 +58,17 @@ $(document).ready(function() {
 
     var distanceHTML = '';
     if (locationAllowed) {
-      distanceHTML = '<div id="place-travel-info">' +
-                       '<p id="mv-distance">'+ calculateDistance(pin.place.lat, pin.place.long) +" km away"+'</p>'+
+      distanceHTML = '<div class="place-travel-info">' +
+                       '<p class="mv-distance">'+ calculateDistance(pin.place.lat, pin.place.long) +" km away"+'</p>'+
                      '</div>';
     }
 
     var placeHTML = '<div class="row place-row">'+
-                      '<div class="col-xs-4" id="mv-place-name">'+
+                      '<div class="col-xs-4 mv-place-name">'+
                         '<h3>'+ pin.place.name +'</h3>'+
                       '</div>'+
-                      '<div class="col-xs-8" id="mv-place-description">'+
-                        '<p>'+ pin.description +'</p>'+
+                      '<div class="col-xs-8 mv-place-description">'+
+                        '<p class="pin-description">'+ pin.description +'</p>'+
                         distanceHTML +
                       '</div>'+
                     '</div>';
@@ -64,17 +76,84 @@ $(document).ready(function() {
     $('.panel-body').last().append(placeHTML);
   };
 
+  var saveEdits = function(input, pin_id){
+    $.ajax({
+      url:"/api/pins/" + pin_id,
+      data: {input: input},
+      method: "PUT",
+      success: function(response, status) {
+        console.log(response);
+      },
+      error: function (response, status) {
+        console.log(response);
+      }
+    });
+  };
+
+  var allowEditing = function(pin){
+    console.log("this is the pin object", pin);
+    var editButton =
+    '<span>' +
+      '<button type="button" class="btn btn-default btn-sm show pin-edit">' +
+        '<span class="glyphicon glyphicon-edit show pin-edit" aria-hidden="true"></span></button>' +
+      '<button type="button" data="' + pin.id + '" class="btn btn-default btn-sm hidden pin-save">Save</button>' +
+    '</span>';
+    $('.mv-place-description').last().prepend(editButton);
+  };
+
   var renderMapList = function(obj){
+    var current_user;
+    $.auth.validateToken().then(function(user){
+      user.id = current_user;
+    });
+    var user_id = obj.user_id;
     var keyArray = Object.keys(obj.grouped_pins);
     console.log(keyArray);
+
+    var map = new google.maps.Map(document.getElementById('googlemap'), {
+      center: {lat: 22.2783, lng: 114.1747},
+      scrollwheel: false,
+      zoom: 12
+    });
+
     keyArray.forEach(function(cat, i){
       $('#accordion').append(categoryAccordion(i+1));
       $('.catName').last().html(cat);
       obj.grouped_pins[cat].forEach(function(pin){
         placeList(pin);
+        drawMarker(map, pin);
+        // if (user_id == current_user){
+          allowEditing(pin);
+        // }
       });
     });
+    bindPinEditButton();
+    bindPinSaveButton();
+  };
 
+  var bindPinEditButton = function(){
+    $('.btn.pin-edit').on('click', function(e){
+      var desc = $(this).parent().parent().find('.pin-description').text();
+      $(this).parent().parent().find('.pin-description').html(inputBox(desc));
+      $(this).addClass('hidden');
+      $(this).parent().find('.pin-save').removeClass('hidden');
+    });
+
+    var inputBox = function(description) {
+      return '<input type="text" class="form-control pin-edit" value="'+description+'">';
+    };
+  };
+
+  var bindPinSaveButton = function(){
+
+    $('.btn.pin-save').on('click', function(e){
+      var input = $(this).parent().parent().find('.form-control.pin-edit').val();
+      $(this).parent().parent().find('.pin-description').html(input);
+      $(this).addClass('hidden');
+      $(this).parent().find('.btn.pin-edit').removeClass('hidden');
+      var pin_id = $(this).attr('data');
+      saveEdits(input, pin_id);
+    });
   };
 
   var renderMapSummary = function(obj){
@@ -84,10 +163,6 @@ $(document).ready(function() {
     $('#number-of-likes').text(obj.likes.length);
   };
 
-  var drawMap = function(obj) {
-
-  };
-
   var getMapInfo = function(map_id) {
     $.ajax({
       url:"/api/maps/" + map_id,
@@ -95,7 +170,6 @@ $(document).ready(function() {
       success: function(response, status) {
         renderMapSummary (response);
         renderMapList (response);
-        drawMap (response);
       },
       error: function (response, status) {
         console.log(response);
