@@ -1,5 +1,56 @@
 $(document).ready(function() {
 
+  var bindSaveProfile = function () {
+    $('#profile-save-button').on('click', function () {
+      var description = $('input[name="profile-user-description"]').val();
+
+      $('.profile-info').toggleClass('hidden show');
+      $('.profile-edit').toggleClass('hidden show');
+
+      $('#profile-description').html(description);
+    });
+  };
+
+  var bindEditProfile = function () {
+    $('#profile-edit-button').on('click', function (e) {
+      e.preventDefault();
+      var description = $('#profile-caption').html();
+
+      $('.profile-info').toggleClass('hidden show');
+      $('.profile-edit').toggleClass('hidden show');
+
+      $('input[name="profile-user-description"]').val(description);
+    });
+  };
+
+  // Shows edit buttons for maps that belong to current user + profile info edit button
+  var showEditButtons = function() {
+    $.auth.validateToken().then(function (user) {
+      path       = location.pathname.split("/");
+      user_id    = parseInt(path[2]);
+
+      // edit button for user maps on feed
+      userMaps   = $('[data-user-id="' + user.id + '"]');
+      editButton = '' +
+        '<div>' +
+          '<button type="button" class="btn btn-default btn-sm show profile-info">' +
+            '<span class="glyphicon glyphicon-edit show profile-info" id="profile-edit-button" aria-hidden="true"></span></button>' +
+          '<button type="button" class="btn btn-default btn-sm hidden profile-info" id="profile-save-button">Save</button>' +
+        '</div>';
+
+      userMaps.append(editButton);
+
+      // show edit buttons if they belong to logged in user
+      if (user.id != user_id) {
+        $('.auth-check').addClass('hidden');
+      };
+
+    }).fail(function (resp) {
+      // if no user is logged in, hide all edit buttons
+      $('.auth-check').addClass('hidden');
+    });
+  };
+
   var displayUserMaps = function (data) {
     data.forEach(function (item) {
       var user        = item.user.name;
@@ -41,71 +92,16 @@ $(document).ready(function() {
     path    = location.pathname.split("/");
     user_id = path[2];
 
-    if (user_id) {
-      $.ajax({
-        url:"/api/users/" + user_id + "/maps",
-        method: "GET",
-        success: function(response, status) {
-          displayUserMaps(response);
-          showEditButtons();
-        },
-        error: function (response, status) {
-          console.log(response);
-        }
-      });
-    };
-  };
-
-  // Shows edit buttons for maps that belong to current user + profile info edit button
-  var showEditButtons = function() {
-    $.auth.validateToken().then(function (user) {
-      path       = location.pathname.split("/");
-      user_id    = parseInt(path[2]);
-
-      // edit button for user maps on feed
-      userMaps   = $('[data-user-id="' + user.id + '"]');
-      editButton = '' +
-        '<div>' +
-          '<button type="button" class="btn btn-default btn-sm show profile-info">' +
-            '<span class="glyphicon glyphicon-edit show profile-info" id="profile-edit-button" aria-hidden="true"></span></button>' +
-          '<button type="button" class="btn btn-default btn-sm hidden profile-info" id="profile-save-button">Save</button>' +
-        '</div>';
-
-      userMaps.append(editButton);
-
-      // edit buttons for profile + places
-      if (user.id != user_id) {
-        $('.auth-check').toggleClass('hidden show');
-      };
-    }).fail(function (resp) {
-      $('.auth-check').toggleClass('hidden show');
-      // this works when signed in, but not when signed out -________-
-      // works sometimes :p
-    });
-  };
-
-  var bindSaveProfile = function () {
-    $('#profile-save-button').on('click', function () {
-      var description = $('input[name="profile-user-description"]').val();
-
-      $('.profile-info').toggleClass('hidden show');
-      $('.profile-edit').toggleClass('hidden show');
-
-      $('#profile-description').html(description);
-
-    });
-  };
-
-  var bindEditProfile = function () {
-    $('#profile-edit-button').on('click', function (e) {
-      console.log('her');
-      e.preventDefault();
-      var description = $('#profile-caption').html();
-
-      $('.profile-info').toggleClass('hidden show');
-      $('.profile-edit').toggleClass('hidden show');
-
-      $('input[name="profile-user-description"]').val(description);
+    $.ajax({
+      url:"/api/users/" + user_id + "/maps",
+      method: "GET",
+      success: function(response, status) {
+        displayUserMaps(response);
+        showEditButtons();
+      },
+      error: function (response, status) {
+        console.log(response);
+      }
     });
   };
 
@@ -113,27 +109,24 @@ $(document).ready(function() {
     path    = location.pathname.split("/");
     user_id = path[2];
 
-    if (user_id) {
-      $.ajax({
-        method: 'GET',
-        url: "/api/users/" + user_id,
-      }).done(function(resp) {
-        $('#profile-header').append(resp);
-        bindEditProfile();
-        bindSaveProfile();
-      });
-    }
+    $.ajax({
+      method: 'GET',
+      url: "/api/users/" + user_id
+    }).done(function(resp) {
+      $('#profile-header').append(resp);
+      showEditButtons();
+      bindEditProfile();
+      bindSaveProfile();
+    });
   };
 
   var init = function () {
     var splitPath = location.pathname.split('/');
-  if (splitPath[1] === 'profile' && parseInt(splitPath[2]) !== isNaN && !splitPath[3]) {
+    if (splitPath[1] === 'profile' && parseInt(splitPath[2]) !== isNaN && !splitPath[3]) {
       console.log ('userpage');
       getUserMaps();
-      bindEditProfile();
-      bindSaveProfile();
       getProfile();
-    }
+    };
   };
 
   init();
