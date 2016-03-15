@@ -20,7 +20,6 @@ $(document).ready(function() {
       '<div class="panel-heading" role="tab" id="heading'+number+'">'+
         '<h4 class="panel-title">'+
           '<a class="catName"role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse'+number+'" aria-expanded="true" aria-controls="collapse'+number+'">'+
-            'Collapsible Group Item #1'+
           '</a>'+
         '</h4>'+
       '</div>'+
@@ -35,8 +34,8 @@ $(document).ready(function() {
   var placeList = function(pin){
     var calculateDistance = function (lat, long) {
       function getDistance(lat1,lon1,lat2,lon2) {
-        var R = 6371; // Radius of the earth in km
-        var dLat = deg2rad(lat2-lat1);  // deg2rad below
+        var R = 6371;
+        var dLat = deg2rad(lat2-lat1);
         var dLon = deg2rad(lon2-lon1);
         var a =
           Math.sin(dLat/2) * Math.sin(dLat/2) +
@@ -44,7 +43,7 @@ $(document).ready(function() {
           Math.sin(dLon/2) * Math.sin(dLon/2)
           ;
         var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-        var d = R * c; // Distance in km
+        var d = R * c;
         return d;
       }
       function deg2rad(deg) {
@@ -77,10 +76,10 @@ $(document).ready(function() {
     $('.panel-body').last().append(placeHTML);
   };
 
-  var saveEdits = function(input){
+  var saveEdits = function(input, pin_id){
     $.ajax({
       url:"/api/pins/" + pin_id,
-      data: input,
+      data: {input: input},
       method: "PUT",
       success: function(response, status) {
         console.log(response);
@@ -91,12 +90,13 @@ $(document).ready(function() {
     });
   };
 
-  var allowEditing = function(){
+  var allowEditing = function(pin){
+    console.log("this is the pin object", pin);
     var editButton =
     '<span>' +
       '<button type="button" class="btn btn-default btn-sm show pin-edit">' +
         '<span class="glyphicon glyphicon-edit show pin-edit" aria-hidden="true"></span></button>' +
-      '<button type="button" class="btn btn-default btn-sm hidden pin-save">Save</button>' +
+      '<button type="button" data="' + pin.id + '" class="btn btn-default btn-sm hidden pin-save">Save</button>' +
     '</span>';
     $('.mv-place-description').last().prepend(editButton);
   };
@@ -123,7 +123,7 @@ $(document).ready(function() {
         placeList(pin);
         drawMarker(map, pin);
         // if (user_id == current_user){
-          allowEditing();
+          allowEditing(pin);
         // }
       });
     });
@@ -151,7 +151,8 @@ $(document).ready(function() {
       $(this).parent().parent().find('.pin-description').html(input);
       $(this).addClass('hidden');
       $(this).parent().find('.btn.pin-edit').removeClass('hidden');
-      saveEdits(input);
+      var pin_id = $(this).attr('data');
+      saveEdits(input, pin_id);
     });
   };
 
