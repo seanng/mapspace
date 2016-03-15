@@ -11,10 +11,7 @@ $(document).ready(function() {
     });
 
     marker.addListener('click', function(){
-      console.log($('[data-name="'+pin.place.name+'"]'))
-
       $('[data-name="'+pin.place.name+'"]')[0].click(function () {
-        console.log("YEAS!");
       });
     });
   };
@@ -153,10 +150,6 @@ $(document).ready(function() {
   };
 
   var renderMapList = function(obj){
-    var current_user;
-    $.auth.validateToken().then(function(user){
-      user.id = current_user;
-    });
     var user_id = obj.user_id;
     var keyArray = Object.keys(obj.grouped_pins);
 
@@ -172,9 +165,12 @@ $(document).ready(function() {
       obj.grouped_pins[cat].forEach(function(pin){
         placeList(pin);
         drawMarker(map, pin);
-        if (user_id == current_user){
-          allowEditing(pin);
-        }
+
+        $.auth.validateToken().then(function(user){
+         if (user_id == user.id) {
+           allowEditing(pin);
+           };
+        });
       });
     });
     bindPinEditButton();
