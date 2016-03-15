@@ -4,6 +4,7 @@ $(document).ready(function() {
     console.log('authenticated');
     $('.nav-link').eq(0).hide();
     $('#profile-url').attr('href', '/profile/' + user.id);
+    $('#nav-username').text(user.name);
   }).fail(function(resp){
     console.log('not authenticated', resp);
     $('.dropdown-toggle').eq(0).hide();
