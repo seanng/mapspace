@@ -22,7 +22,44 @@
   </div>
   <div class="col-xs-12 col-md-6 places-view">
     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    </div>
+  </div>
+</div>
 
+<!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+</button> -->
+
+<!-- Modal -->
+<div class="modal fade" id="place-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 id="place-modal-name"></h4>
+      </div>
+      <div class="modal-body">
+        <div id="place-modal-map">
+        </div>
+        <ul>
+          <li>
+            <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+            <h5 id="place-modal-address"></h5>
+          </li>
+          <li>
+            <span class="glyphicon glyphicon-globe" aria-hidden="true"></span>
+            <h5 id="place-modal-website"></h5>
+          </li>
+          <li>
+            <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
+            <h5 id="place-modal-phone"></h5>
+          </li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
     </div>
   </div>
 </div>

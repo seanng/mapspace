@@ -12,6 +12,7 @@ $(document).ready(function() {
 
     marker.addListener('click', function(){
       //open modal?
+
     });
   };
 
@@ -52,7 +53,6 @@ $(document).ready(function() {
       var userlat = currentPos.coords.latitude;
       var userlong = currentPos.coords.longitude;
       var distance = getDistance(userlat, userlong, parseFloat(lat), parseFloat(long));
-      console.log(distance);
       return (distance).toFixed(1);
     };
 
@@ -65,7 +65,14 @@ $(document).ready(function() {
 
     var placeHTML = '<div class="row place-row">'+
                       '<div class="col-xs-4 mv-place-name">'+
-                        '<h3>'+ pin.place.name +'</h3>'+
+                        '<h3 class="mv-place-name-data"' +
+                          'data-lat="'+     pin.place.lat     +'"' +
+                          'data-long="'+    pin.place.long    +'"' +
+                          'data-name="'+    pin.place.name    +'"' +
+                          'data-address="'+ pin.place.address +'"' +
+                          'data-phone="'+   pin.place.phone   +'"' +
+                          'data-website="'+   pin.place.website +'">' +
+                          pin.place.name +'</h3>'+
                       '</div>'+
                       '<div class="col-xs-8 mv-place-description">'+
                         '<p class="pin-description">'+ pin.description +'</p>'+
@@ -74,6 +81,38 @@ $(document).ready(function() {
                     '</div>';
 
     $('.panel-body').last().append(placeHTML);
+    showPinModal();
+  };
+
+  var showPinModal = function () {
+    $('.mv-place-name-data').on('click', function (e) {
+      e.preventDefault();
+      var $pin  = $(this);
+      var place = {
+        lat    : $pin.data('lat'),
+        long   : $pin.data('long'),
+        name   : $pin.data('name'),
+        address: $pin.data('address'),
+        phone  : $pin.data('phone'),
+        website: $pin.data('website')
+      };
+
+      var $modal = $('#place-modal');
+      $modal.modal('show');
+
+      $('#place-modal-name').text(place.name);
+      $('#place-modal-address').text(place.address);
+      $('#place-modal-phone').text(place.phone);
+      $('#place-modal-website').text(place.website);
+
+      var map = new google.maps.Map(document.getElementById('place-modal-map'), {
+        center: {lat: place.lat, lng: place.long},
+        scrollwheel: false,
+        zoom: 12
+      });
+
+      console.log(map)
+    });
   };
 
   var saveEdits = function(input, pin_id){
@@ -82,7 +121,6 @@ $(document).ready(function() {
       data: {input: input},
       method: "PUT",
       success: function(response, status) {
-        console.log(response);
       },
       error: function (response, status) {
         console.log(response);
@@ -91,7 +129,6 @@ $(document).ready(function() {
   };
 
   var allowEditing = function(pin){
-    console.log("this is the pin object", pin);
     var editButton =
     '<span>' +
       '<button type="button" class="btn btn-default btn-sm show pin-edit">' +
@@ -108,7 +145,6 @@ $(document).ready(function() {
     });
     var user_id = obj.user_id;
     var keyArray = Object.keys(obj.grouped_pins);
-    console.log(keyArray);
 
     var map = new google.maps.Map(document.getElementById('googlemap'), {
       center: {lat: 22.2783, lng: 114.1747},
@@ -122,9 +158,9 @@ $(document).ready(function() {
       obj.grouped_pins[cat].forEach(function(pin){
         placeList(pin);
         drawMarker(map, pin);
-        // if (user_id == current_user){
+        if (user_id == current_user){
           allowEditing(pin);
-        // }
+        }
       });
     });
     bindPinEditButton();
@@ -172,7 +208,6 @@ $(document).ready(function() {
         renderMapList (response);
       },
       error: function (response, status) {
-        console.log(response);
       }
     });
   };
@@ -182,13 +217,11 @@ $(document).ready(function() {
     if (splitPath[1] === 'maps' && parseInt(splitPath[2]) !== isNaN && !splitPath[3]) {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(pos){
-          console.log("got location");
           locationAllowed = true;
           currentPos = pos;
           getMapInfo(splitPath[2]);
         });
       } else {
-        console.log("not allowed");
         getMapInfo(splitPath[2]);
       }
     }
