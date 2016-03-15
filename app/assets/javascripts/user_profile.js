@@ -72,7 +72,7 @@ $(document).ready(function() {
       '<div class="row map-item" data-user-id="' + userID + '">' +
         '<div class="col-xs-3">' +
           '<div class="likes">' +
-            '<h3 id="number-of-likes">' + likes + '</h3>' +
+            '<div class="number-of-likes">' + likes + '</div>' +
           '</div>' +
         '</div>' +
         '<div class="col-xs-6 map-about">' +
@@ -129,7 +129,7 @@ $(document).ready(function() {
       console.log ('userpage');
       getUserMaps();
       getProfile();
-    };
+    }
   };
 
   init();

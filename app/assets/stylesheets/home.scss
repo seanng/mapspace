@@ -9,6 +9,7 @@
 
 #feed-filter-bar {
   border: 1px solid black;
+  padding: 9px;
 }
 
 #feed-filter-bar > * {
@@ -51,10 +52,11 @@
 .likes {
   width: 50px;
   height: 50px;
+  margin-top: 20px;
   background-image: url("http://i.imgur.com/tCMC7uB.png");
 }
 
-#number-of-likes {
+.number-of-likes {
   padding-top: 10px;
   text-align: center;
 }
