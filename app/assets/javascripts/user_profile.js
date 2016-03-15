@@ -29,18 +29,7 @@ $(document).ready(function() {
       path       = location.pathname.split("/");
       user_id    = parseInt(path[2]);
 
-      // edit button for user maps on feed
-      userMaps   = $('[data-user-id="' + user.id + '"]');
-      editButton = '' +
-        '<div>' +
-          '<button type="button" class="btn btn-default btn-sm show profile-info">' +
-            '<span class="glyphicon glyphicon-edit show profile-info" id="profile-edit-button" aria-hidden="true"></span></button>' +
-          '<button type="button" class="btn btn-default btn-sm hidden profile-info" id="profile-save-button">Save</button>' +
-        '</div>';
-
-      userMaps.append(editButton);
-
-      // show edit buttons if they belong to logged in user
+      // show profile and map edit buttons if they belong to logged in user
       if (user.id != user_id) {
         $('.auth-check').addClass('hidden');
       };
@@ -81,7 +70,13 @@ $(document).ready(function() {
             '</ul>' +
           '</ul>' +
         '</div>' +
-        '<div class="col-xs-3 map-tag"><h5>' + tags + '</h5></div>' +
+        '<div class="col-xs-3 map-tag"><h5>' + tags + '</h5>' +
+          '<div>' +
+            '<button type="button" class="btn btn-default btn-sm auth-check show profile-info">' +
+              '<span class="glyphicon glyphicon-edit show profile-info" id="profile-edit-button" aria-hidden="true"></span></button>' +
+            '<button type="button" class="btn btn-default btn-sm auth-check hidden profile-info" id="profile-save-button">Save</button>' +
+          '</div>' +
+        '</div>' +
       '</div>';
 
       $('.profile-feed').append(newMap);
