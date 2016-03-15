@@ -5,11 +5,23 @@
   <%= stylesheet_link_tag    'application', media: 'all' %>
   <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
+
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwgejdknqxK_7RDtdus9aVE2lzKrUeW5M&libraries=places"></script>
+
+
 </head>
 <body>
-<%= render 'partials/navbar' %>
+  <header>
+    <%= render 'partials/navbar' %>
+    <%= render 'partials/signin_modal' %>
+  </header>
 
-<%= yield %>
+  <main>
+    <%= yield %>
+  </main>
 
 </body>
 </html>

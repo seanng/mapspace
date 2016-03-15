@@ -1,0 +1,43 @@
+
+/*Log in modal*/
+body .modal-dialog {
+    width: 400px;
+}
+
+#SignIn{
+  text-align: center;
+}
+.modal-footer {
+    height: 70px;
+    margin: 0;
+}
+.modal-footer .btn {
+    font-weight: bold;
+}
+#modal-footer-sign-in .progress {
+    display: none;
+    height: 32px;
+    margin: 0;
+}
+.input-group-addon {
+    color: #fff;
+    background: #3276B1;
+}
+
+#lower-modal-text {
+  text-align: left;
+  font-weight: 100;
+  font-size: 12px;
+}
+
+.bottomdiv {
+  height: 50px;
+}
+.deleteconfirmation {
+  border-radius: 8px;
+  border: 1px #C8C6AE solid;
+  background: #faf8da;
+  padding: 5px;
+  text-align: right;
+  font-size: 18px;
+}

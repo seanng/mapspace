@@ -1,0 +1,60 @@
+#page-title {
+  text-align: center;
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+  margin-top: 0;
+  padding: 15px 0 15px 0;
+  background-color: white;
+}
+
+#feed-filter-bar {
+  border: 1px solid black;
+}
+
+#feed-filter-bar > * {
+  display: inline;
+}
+
+.filter-item {
+  display: inline;
+}
+
+#newest {
+  font-weight: bold;
+}
+
+.home-feed {
+  border-right: 1px solid black;
+  border-left: 1px solid black;
+}
+
+.map-item {
+  border-bottom: 1px solid black;
+}
+
+.map-stats {
+  padding-left: 0;
+}
+
+.map-stats > * {
+  display: inline-block;
+}
+
+.map-stats-user {
+  padding-left: 0;
+}
+
+.map-stats-user > li {
+  display: inline;
+}
+
+.likes {
+  width: 50px;
+  height: 50px;
+  background-image: url("http://i.imgur.com/tCMC7uB.png");
+}
+
+#number-of-likes {
+  padding-top: 10px;
+  text-align: center;
+}

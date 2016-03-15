@@ -1,0 +1,19 @@
+<%@user = User.find(params[:id]) %>
+
+<div class="col-xs-3 thumbnail">
+  <img id="profile-avatar" src="http://stock.wikimini.org/w/images/9/95/Gnome-stock_person-avatar-profile.png">
+</div>
+
+<div class="col-xs-9" id="profile-user-info">
+  <h1 id="profile-username"><%=@user.name %></h1>
+  <p class="hidden profile-edit">Tell us about you</p>
+  <h3 class="profile-info" id="profile-caption"><%=@user.caption %></h3>
+  <input type="text" class="form-control hidden profile-edit" value="" name="profile-user-caption">
+</div>
+
+<div id="edit-profile">
+  <button type="button" class="btn btn-default btn-sm show profile-info auth-check" id="profile-edit-button">
+    <span class="glyphicon glyphicon-edit show profile-info auth-check" aria-hidden="true"></span>
+  </button>
+  <button type="button" class="btn btn-default btn-sm hidden profile-info" id="profile-save-button">Save</button>
+</div>
