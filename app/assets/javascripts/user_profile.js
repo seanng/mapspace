@@ -85,15 +85,7 @@ $(document).ready(function() {
             '</ul>' +
           '</ul>' +
         '</div>' +
-        '<div class="col-xs-3 map-tag"><h5>' + tags + '</h5>' +
-          // map edit button -- do we want to only edit/delete on map pages?
-          '<div>' +
-            '<button type="button" class="btn btn-default btn-sm auth-check show profile-info">' +
-              '<span class="glyphicon glyphicon-edit show profile-info" id="profile-edit-button" aria-hidden="true"></span></button>' +
-            '<button type="button" class="btn btn-default btn-sm auth-check hidden profile-info" id="profile-save-button">Save</button>' +
-          '</div>' +
-        '</div>' +
-      '</div>';
+        '<div class="col-xs-3 map-tag"><h5>' + tags + '</h5>' + '</div>';
 
       $('.profile-feed').append(newMap);
     });
