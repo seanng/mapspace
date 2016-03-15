@@ -159,22 +159,34 @@ $(document).ready(function() {
       zoom: 12
     });
 
-    keyArray.forEach(function(cat, i){
-      $('#accordion').append(categoryAccordion(i+1));
-      $('.catName').last().html(cat);
-      obj.grouped_pins[cat].forEach(function(pin){
-        placeList(pin);
-        drawMarker(map, pin);
+    $.auth.validateToken().then(function(user){
+      // if logged in and owner of pins, show pins and edit button
+      keyArray.forEach(function(cat, i){
+        $('#accordion').append(categoryAccordion(i+1));
+        $('.catName').last().html(cat);
+        obj.grouped_pins[cat].forEach(function(pin){
+          placeList(pin);
+          drawMarker(map, pin);
 
-        $.auth.validateToken().then(function(user){
-         if (user_id == user.id) {
-           allowEditing(pin);
+           if (user_id == user.id) {
+             allowEditing(pin);
+             bindPinEditButton();
+             bindPinSaveButton();
            };
+
+        });
+      });
+    }).fail(function (resp) {
+      // if not logged in, show pins
+      keyArray.forEach(function(cat, i){
+        $('#accordion').append(categoryAccordion(i+1));
+        $('.catName').last().html(cat);
+        obj.grouped_pins[cat].forEach(function(pin){
+          placeList(pin);
+          drawMarker(map, pin);
         });
       });
     });
-    bindPinEditButton();
-    bindPinSaveButton();
   };
 
   var bindPinEditButton = function(){
