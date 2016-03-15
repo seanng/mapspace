@@ -106,7 +106,7 @@ $(document).ready(function() {
       success: function(response,status){
         console.log(response);
         console.log ('successfully created a map!');
-        window.location.href ='/maps/:map_id';
+        window.location.href ='/maps/'+response;
       }
     });
   };
