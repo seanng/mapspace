@@ -11,8 +11,8 @@ $(document).ready(function() {
     });
 
     marker.addListener('click', function(){
-      //open modal?
-
+      $('[data-name="'+pin.place.name+'"]')[0].click(function () {
+      });
     });
   };
 
@@ -100,18 +100,29 @@ $(document).ready(function() {
       var $modal = $('#place-modal');
       $modal.modal('show');
 
+      // add data to modal
       $('#place-modal-name').text(place.name);
       $('#place-modal-address').text(place.address);
       $('#place-modal-phone').text(place.phone);
       $('#place-modal-website').text(place.website);
 
+      // add map to modal
       var map = new google.maps.Map(document.getElementById('place-modal-map'), {
         center: {lat: place.lat, lng: place.long},
         scrollwheel: false,
-        zoom: 12
+        zoom: 4
       });
 
-      console.log(map)
+      // place marker on map
+      var marker = new google.maps.Marker({
+        position: {lat: place.lat, lng: place.long},
+        map: map,
+        title: place.name
+      });
+
+      google.maps.event.trigger(map, 'resize');
+      map.setCenter(new google.maps.LatLng(place.lat, place.long));
+
     });
   };
 
@@ -139,10 +150,6 @@ $(document).ready(function() {
   };
 
   var renderMapList = function(obj){
-    var current_user;
-    $.auth.validateToken().then(function(user){
-      user.id = current_user;
-    });
     var user_id = obj.user_id;
     var keyArray = Object.keys(obj.grouped_pins);
 
@@ -152,19 +159,33 @@ $(document).ready(function() {
       zoom: 12
     });
 
-    keyArray.forEach(function(cat, i){
-      $('#accordion').append(categoryAccordion(i+1));
-      $('.catName').last().html(cat);
-      obj.grouped_pins[cat].forEach(function(pin){
-        placeList(pin);
-        drawMarker(map, pin);
-        if (user_id == current_user){
-          allowEditing(pin);
-        }
+    $.auth.validateToken().then(function(user){
+      // if logged and owner of pins, show pins and edit button
+      keyArray.forEach(function(cat, i){
+        $('#accordion').append(categoryAccordion(i+1));
+        $('.catName').last().html(cat);
+        obj.grouped_pins[cat].forEach(function(pin){
+          placeList(pin);
+          drawMarker(map, pin);
+
+           if (user_id == user.id) {
+             allowEditing(pin);
+             bindPinEditButton();
+             bindPinSaveButton();
+           };
+        });
+      });
+    }).fail(function (resp) {
+      // if not logged in, show pins
+      keyArray.forEach(function(cat, i){
+        $('#accordion').append(categoryAccordion(i+1));
+        $('.catName').last().html(cat);
+        obj.grouped_pins[cat].forEach(function(pin){
+          placeList(pin);
+          drawMarker(map, pin);
+        });
       });
     });
-    bindPinEditButton();
-    bindPinSaveButton();
   };
 
   var bindPinEditButton = function(){
@@ -182,8 +203,9 @@ $(document).ready(function() {
 
   var bindPinSaveButton = function(){
 
-    $('.btn.pin-save').on('click', function(e){
+    $('.btn.pin-save').off().on('click', function(e){
       var input = $(this).parent().parent().find('.form-control.pin-edit').val();
+      console.log(input);
       $(this).parent().parent().find('.pin-description').html(input);
       $(this).addClass('hidden');
       $(this).parent().find('.btn.pin-edit').removeClass('hidden');
