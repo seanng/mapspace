@@ -160,7 +160,7 @@ $(document).ready(function() {
     });
 
     $.auth.validateToken().then(function(user){
-      // if logged in and owner of pins, show pins and edit button
+      // if logged and owner of pins, show pins and edit button
       keyArray.forEach(function(cat, i){
         $('#accordion').append(categoryAccordion(i+1));
         $('.catName').last().html(cat);
@@ -173,7 +173,6 @@ $(document).ready(function() {
              bindPinEditButton();
              bindPinSaveButton();
            };
-
         });
       });
     }).fail(function (resp) {
@@ -204,8 +203,9 @@ $(document).ready(function() {
 
   var bindPinSaveButton = function(){
 
-    $('.btn.pin-save').on('click', function(e){
+    $('.btn.pin-save').off().on('click', function(e){
       var input = $(this).parent().parent().find('.form-control.pin-edit').val();
+      console.log(input);
       $(this).parent().parent().find('.pin-description').html(input);
       $(this).addClass('hidden');
       $(this).parent().find('.btn.pin-edit').removeClass('hidden');
