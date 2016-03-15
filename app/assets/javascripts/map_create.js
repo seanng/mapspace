@@ -6,6 +6,11 @@ $(document).ready(function() {
 
   var mapHasCategories = false;
 
+  var appendNewPlace = function(){
+    $('#all-additions').append(newPlace);
+    autocompletePlaceField();
+  };
+
   var newPlace = '<div class="pin-entry">'+
       '<div class="col-xs-8 place-name-div form-group">'+
         '<input type="input" class="form-control place-name-field" placeholder="Place name">'+
@@ -117,7 +122,7 @@ $(document).ready(function() {
     $('.add-new-place').off().on('click', function(e){
       console.log('listening');
       e.preventDefault();
-      mapHasCategories ? $(this).before(newPlace) : $('#all-additions').append(newPlace);
+      mapHasCategories ? $(this).before(newPlace) : appendNewPlace();
 
     var lastInput = $(this).parent().find('.place-name-field').last();
     var autocomplete = new google.maps.places.Autocomplete(lastInput[0]);
@@ -173,7 +178,7 @@ $(document).ready(function() {
     $('#categoryOption').hide();
     $('.add-new-place').show();
     $('.create-map-button').show();
-    $('#all-additions').append(newPlace);
+    appendNewPlace();
   };
 
   var bindCreateButton = function() {
