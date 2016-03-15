@@ -70,12 +70,12 @@ $(document).ready(function() {
 
       var newMap = '' +
       '<div class="row map-item" data-user-id="' + userID + '">' +
-        '<div class="col-xs-3">' +
+        '<div class="col-xs-2">' +
           '<div class="likes">' +
-            '<h3 id="number-of-likes">' + likes + '</h3>' +
+            '<div class="number-of-likes">' + likes + '</div>' +
           '</div>' +
         '</div>' +
-        '<div class="col-xs-6 map-about">' +
+        '<div class="col-xs-8 map-about">' +
           '<h3><a href="/maps/' + mapID + '">' + title + '</a></h3>' +
           '<ul class="map-stats">' +
             '<li class="map-stats-comments"><a href="/maps/' + mapID + '/comments">' + comments + '</a> comments</li>' +
@@ -85,7 +85,7 @@ $(document).ready(function() {
             '</ul>' +
           '</ul>' +
         '</div>' +
-        '<div class="col-xs-3 map-tag"><h5>' + tags + '</h5>' + '</div>';
+        '<div class="col-xs-2 map-tag"><h5>' + tags + '</h5>' + '</div>';
 
       $('.profile-feed').append(newMap);
     });
@@ -129,7 +129,7 @@ $(document).ready(function() {
       console.log ('userpage');
       getUserMaps();
       getProfile();
-    };
+    }
   };
 
   init();

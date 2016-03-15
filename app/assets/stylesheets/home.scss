@@ -1,14 +1,30 @@
-#page-title {
+#everything {
+  background: #F8F8F8;
+  font-family: 'Raleway', sans-serif;
+}
+
+#home-banner {
+  height: 250px;
   text-align: center;
-  border-bottom: 1px solid black;
-  border-top: 1px solid black;
+  border-bottom: 1px solid #e7e7e7;
+  border-top: 1px solid #e7e7e7;
   margin-top: 0;
-  padding: 15px 0 15px 0;
-  background-color: white;
+  padding: 80px 0;
+  background-image: url(plane_view.jpg);
+  background-position: center;
+  background-size: cover;
+  color: white;
+  font-size: 46px;
+  font-family: 'Quicksand', sans-serif;
 }
 
 #feed-filter-bar {
-  border: 1px solid black;
+  border: 1px solid #e7e7e7;
+  margin-top: 15px;
+  padding-top: 9px;
+  padding-bottom: 9px;
+  padding-left: 35px;
+  background: white;
 }
 
 #feed-filter-bar > * {
@@ -17,19 +33,25 @@
 
 .filter-item {
   display: inline;
+  margin-right: 15px;
+}
+
+#filter-by-votes {
+  padding: 0px;
+  text-align: right;
 }
 
 #newest {
   font-weight: bold;
 }
 
-.home-feed {
-  border-right: 1px solid black;
-  border-left: 1px solid black;
-}
-
-.map-item {
-  border-bottom: 1px solid black;
+.row.map-item {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border: 1px solid #e7e7e7;
+  border-top: 1px solid #e7e7e7;
+  background-color: white;
+  margin-top: 10px;
 }
 
 .map-stats {
@@ -51,10 +73,11 @@
 .likes {
   width: 50px;
   height: 50px;
+  margin: 20px auto;
   background-image: url("http://i.imgur.com/tCMC7uB.png");
 }
 
-#number-of-likes {
+.number-of-likes {
   padding-top: 10px;
   text-align: center;
 }
