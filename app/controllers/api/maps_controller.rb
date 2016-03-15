@@ -44,7 +44,7 @@ module Api
         Map.last.pins.create(description: description, category: category, place_id: place.id)
       end
 
-      render json: Map.last
+      render json: Map.last.id
 
     end
 
