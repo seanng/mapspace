@@ -69,7 +69,7 @@ $(document).ready(function() {
       var userID = item.user_id;
       var mapID = item.id;
       var title       = item.title;
-      var tags        = item.tags;
+      var tags        = item.tags ? "#"+item.tags : "";
       var likes       = item.likes.length;
       var comments    = item.comments.length;
 
@@ -89,7 +89,7 @@ $(document).ready(function() {
             '<ul class="map-stats">' +
               '<li class="map-stats-comments"><a href="/maps/' + mapID + '/comments">' + comments + '</a> comments</li>' +
               '<ul class="map-stats-user">' +
-                '<li class="map-stats-date">' + dateSince + ' days ago</li>' +
+                '<li class="map-stats-date">' + dateSince + ' days ago </li>' +
                 '<li class="map-stats-owner">by ' + '<a href="/profile/' + userID + '">' + user + '</a></li>' +
               '</ul>' +
             '</ul>' +
