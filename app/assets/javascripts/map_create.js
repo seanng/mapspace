@@ -66,7 +66,7 @@ $(document).ready(function() {
     $('.pin-entry').each(function(index){
       var field = $(this).find('.place-name-field');
       var pinDescription = $(this).find('.place-description').val();
-      var pinCategory = mapHasCategories ? $(this).closest('div.category-entry').val() : null;
+      var pinCategory = mapHasCategories ? $(this).parent().find('div.col-xs-8').eq(0).find('.category-name').val() : null;
       var pin = {
         name: field.val(),
         google_id: field.data().pindata.getID,
