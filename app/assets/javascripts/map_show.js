@@ -116,12 +116,16 @@ $(document).ready(function() {
         zoom: 4
       });
 
-      // place marker on marp
+      // place marker on map
       var marker = new google.maps.Marker({
         position: {lat: place.lat, lng: place.long},
         map: map,
         title: place.name
       });
+
+      google.maps.event.trigger(map, 'resize');
+      map.setCenter(new google.maps.LatLng(place.lat, place.long));
+
     });
   };
 
