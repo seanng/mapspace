@@ -1,5 +1,9 @@
 $(document).ready(function() {
 
+  var getCurrentLocation = function() {
+
+  }
+
   var categoryAccordion = function(number) {
     return '<div class="panel panel-default">'+
       '<div class="panel-heading" role="tab" id="heading'+number+'">'+
@@ -10,9 +14,46 @@ $(document).ready(function() {
         '</h4>'+
       '</div>'+
       '<div id="collapse'+number+'" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading'+number+'">'+
+        '<div class="panel-body">'+
         // PINS GO HERE
+        '</div>'+
       '</div>'+
     '</div>';
+  };
+
+  var placeList = function(pin){
+
+    var calculateDistance = function (lat, long){
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(pos){
+          var userlat = pos.coords.latitude;
+          var userlong = pos.coords.longitude;
+        });
+
+        setTimeout(function(){
+          ;
+        }, 7000);
+      } else {
+        ;
+      }
+
+      return distance;
+    };
+
+    var placeHTML = '<div class="row place-row">'+
+                      '<div class="col-xs-4" id="mv-place-name">'+
+                        '<h3>'+ pin.place.name +'</h3>'+
+                      '</div>'+
+                      '<div class="col-xs-8" id="mv-place-description">'+
+                        '<p>'+ pin.description +'</p>'+
+                        '<div id="place-travel-info">'+
+                          '<p id="mv-distance">'+ calculateDistance(pin.place.lat, pin.place.long) +'</p>'+
+                        '</div>'+
+                      '</div>'+
+                    '</div>';
+
+    $('.panel-body').last().append(placeHTML);
+
   };
 
   var renderMapList = function(obj){
@@ -21,7 +62,11 @@ $(document).ready(function() {
     keyArray.forEach(function(cat, i){
       $('#accordion').append(categoryAccordion(i+1));
       $('.catName').last().html(cat);
+      obj.grouped_pins[cat].forEach(function(pin, index){
+        placeList(pin, i)
+      });
     });
+
   };
 
   var renderMapSummary = function(obj){
@@ -54,6 +99,7 @@ $(document).ready(function() {
   var init = function () {
     var splitPath = location.pathname.split('/');
     if (splitPath[1] === 'maps' && parseInt(splitPath[2]) !== isNaN && !splitPath[3]) {
+      getCurrentLocation();
       getMapInfo(splitPath[2]);
     }
   };

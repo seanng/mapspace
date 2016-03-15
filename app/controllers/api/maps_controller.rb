@@ -48,8 +48,8 @@ module Api
 
     def show
       map_id = params[:id].to_i
-      map = Map.includes(:user, :pins, :places, :likes, comments: [:user]).find(map_id)
-      maps_json = map.as_json(include: [:user, :pins, :places, :likes, comments: {include: {user: {only: :name}}}])
+      map = Map.includes(:user, :places, :likes, pins: [:place], comments: [:user]).find(map_id)
+      maps_json = map.as_json(include: [:user, :places, :likes, pins: {include: :place},comments: {include: {user: {only: :name}}}])
       maps_json["grouped_pins"] = maps_json["pins"].group_by{|p| p["category"]}
 
       render json: maps_json
