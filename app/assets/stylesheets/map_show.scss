@@ -11,7 +11,8 @@ h4.panel-title {
 
 #mv-info {
   background-color: white;
-  margin-bottom: 8px;
+  padding-bottom: 8px;
+  margin-bottom: 20px;
   border: 1px solid #e7e7e7;
 }
 
@@ -47,11 +48,16 @@ h4.panel-title {
 
 #mv-creator-row {
   padding-right: 20px;
+  margin-top: 10px;
+  font-size: 12px;
 }
 
 #mv-creator-name {
-  text-align: right;
-  font-size: 12px;
+  float:right;
+}
+
+#mv-tags {
+  font-style: italic;
 }
 
 #mv-likes {
