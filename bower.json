@@ -2,6 +2,7 @@
   "name": "project-mapspace",
   "version": "0.0.1",
   "dependencies": {
-    "j-toker": "~0.0.9"
+    "j-toker": "^0.0.9",
+    "moment": "~2.12.0"
   }
 }

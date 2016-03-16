@@ -4,7 +4,7 @@ class PageController < ApplicationController
   end
 
   def filters
-
+    render layout:false
   end
 
   def user_profile

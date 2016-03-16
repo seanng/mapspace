@@ -1,0 +1,67 @@
+<div class="container-fluid" id="map-page">
+  <div class="col-xs-12 col-md-6 map-view">
+    <div class="col-xs-12" id="googlemap">
+      <!-- <img class="col-xs-12 thumbnail" id="mv-map" src="http://placehold.it/500x500"> -->
+    </div>
+  </div>
+  <div class="col-xs-12 col-md-6" id="mv-map-info">
+    <div class="col-xs-12" id="mv-info">
+      <div class="col-xs-12" id="mv-title-row">
+        <h3 class="col-xs-9" id="mv-title"></h1>
+        <div class="col-xs-3">
+          <div class="likes" id="mv-likes">
+            <h3 id="number-of-likes"></h3>
+          </div>
+        </div>
+        <div class="col-xs-12" id="mv-description-row">
+          <h5 id="mv-description"></h5>
+        </div>
+        <div class="col-xs-11" id="mv-creator-row">
+          <span id="mv-tags"></span>
+          <span id="mv-creator-name"></span>
+        </div>
+        <div class="col-xs-1" id="mv-summary-edit-button">
+          <span>EDIT</span>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12 places-view">
+      <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+</button> -->
+
+<!-- Modal -->
+<div class="modal fade" id="place-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 id="place-modal-name"></h4>
+      </div>
+      <div class="modal-body">
+        <div id="place-modal-map">
+        </div>
+        <ul>
+          <li>
+            <span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>
+            <h5 id="place-modal-address"></h5>
+          </li>
+          <li>
+            <span class="glyphicon glyphicon-globe" aria-hidden="true"></span>
+            <h5 id="place-modal-website"></h5>
+          </li>
+          <li>
+            <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
+            <h5 id="place-modal-phone"></h5>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

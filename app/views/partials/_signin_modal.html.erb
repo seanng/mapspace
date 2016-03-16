@@ -1,0 +1,44 @@
+ <!-- SIGN IN / SIGN UP MODAL -->
+
+<div class="modal fade" id="signin-modal" tabindex="-1" role="dialog" aria-labelledby="modal-header-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header"> <!-- modal-header -->
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title" id="modal-header-label">Sign in</h4>
+      </div> <!-- /.modal-header -->
+
+      <div class="modal-body"> <!-- modal-body -->
+        <form role="form">
+          <div class="form-group"> <!-- form-group, username -->
+            <div class="input-group hide" id= "usernamediv">
+              <input type="name" class="form-control" id="uName" placeholder="Username">
+              <label for="uName" class="input-group-addon glyphicon glyphicon-user"></label>
+            </div>
+          </div>
+          <div class="form-group"> <!-- form-group, email -->
+            <div class="input-group">
+              <input type="email" class="form-control" id="uLogin" placeholder="Email">
+              <label for="uLogin" class="input-group-addon glyphicon glyphicon-envelope"></label>
+            </div>
+          </div>
+          <div class="form-group"> <!-- form-group, password -->
+            <div class="input-group">
+              <input type="password" class="form-control" id="uPassword" placeholder="Password">
+              <label for="uPassword" class="input-group-addon glyphicon glyphicon-lock"></label>
+            </div> <!-- /.input-group -->
+          </div>
+          <div id= "lower-modal-text">
+            Don't have an account? <span id="signwhat1"><a>Sign up!</a></span>
+          </div> <!-- /.checkbox -->
+        </form>
+      </div> <!-- /.modal-body -->
+
+      <div class="modal-footer" id="modal-footer-sign-in">
+        <button class="form-control btn btn-primary">Sign in</button>
+      </div> <!-- /#modal-footer-sign-in-modal -->
+
+    </div>
+  </div>
+</div>
