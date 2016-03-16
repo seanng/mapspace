@@ -4,6 +4,8 @@ $(document).ready(function() {
     mapInfo.user_id = user.id;
   });
 
+  var tagsarray = [];
+
   var mapHasCategories = false;
 
   var appendNewPlace = function(){
@@ -22,7 +24,7 @@ $(document).ready(function() {
     '</div>';
 
   var newCategory = '<div class="category-entry form-group">'+
-    '<div class="form-group col-xs-8">'+
+    '<div class="form-group col-xs-8 category-name-div">'+
       '<input type="text" class="form-control category-name" placeholder="Category name">'+
     '</div>'+
     '<button type="button" class="btn btn-danger remove-category">Remove category</button>'+
@@ -64,6 +66,43 @@ $(document).ready(function() {
     bindRemoveCategory();
   };
 
+  var bindTagSubmit = function() {
+    $('.mc-tags-form').off().on('submit', function(e){
+      e.preventDefault();
+      var newTag = $(this).find('.mc-tags-input').val();
+      addNewTagRow(newTag);
+      tagsarray.push(newTag);
+    });
+  };
+
+  var addNewTagRow = function(oldrow) {
+    var newRow = '<form class="mc-tags-form">'+
+            '<input type="text" class="form-control mc-tags-input" placeholder="Add tag">'+
+          '</form>';
+    var agedrow = '<button class="btn btn-default newhashtag" data-tag="'+ oldrow+'" type="submit"><i>#'+oldrow+'</i></button>';
+    $('.mc-tags-form').remove();
+    $('.tags-body').append(agedrow);
+    $('.tags-body').append(newRow);
+    bindTagSubmit();
+    bindNewTag();
+    $('.mc-tags-input').last().focus();
+  };
+
+  var bindNewTag = function(){
+    $('.newhashtag').last().off().on('click', function(e){
+      console.log(tagsarray, "1");
+      e.preventDefault();
+      var value = $(this).attr('data-tag');
+      for (var i=tagsarray.length-1; i>=0; i--) {
+        if (tagsarray[i] == value) {
+          tagsarray.splice(i, 1);
+        }
+      }
+      $(this).remove();
+      console.log(tagsarray, "2");
+    });
+  };
+
   var addData = function(){
     mapInfo.title = $('#mapTitle').val();
     mapInfo.description = $('#mapDescription').val();
@@ -92,6 +131,7 @@ $(document).ready(function() {
     description: null,
     featured: $('#featured-checkbox').is(":checked"),
     pins: [],
+    tags: tagsarray
   };
 
   var postMap = function(){
@@ -163,6 +203,7 @@ $(document).ready(function() {
     $('#categoryOption').hide();
     mapHasCategories = true;
     $('.add-new-category').show();
+    $('.featuredornot').hide();
     $('.create-map-button').show();
     appendNewCategory();
   };
@@ -177,6 +218,7 @@ $(document).ready(function() {
   var noToCategories = function() {
     $('#categoryOption').hide();
     $('.add-new-place').show();
+    $('.featuredornot').show();
     $('.create-map-button').show();
     appendNewPlace();
   };
@@ -204,9 +246,11 @@ $(document).ready(function() {
   var init = function() {
     bindYesButton();
     bindNoButton();
+    bindTagSubmit();
     $('.add-new-category').hide();
     $('.add-new-place').hide();
     $('.create-map-button').hide();
+    $('.featuredornot').hide();
     bindAddPlaceButton();
     bindAddNewCategory();
     bindCreateButton();

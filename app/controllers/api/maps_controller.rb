@@ -26,8 +26,9 @@ module Api
       map_description = params[:description]
       featured = params[:featured]
       all_pins = params[:pins]
+      tags = params[:tags]
 
-      User.find(user_id).maps.create(title: map_title, description: map_description, featured: featured)
+      User.find(user_id).maps.create(title: map_title, description: map_description, featured: featured, tags: tags)
 
       all_pins.each do |pin|
         puts pin
