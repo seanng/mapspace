@@ -40,7 +40,6 @@ $(document).ready(function() {
   var showEditButtons = function() {
     $.auth.validateToken().then(function (user) {
       path       = location.pathname.split("/");
-      console.log(path);
       user_id    = parseInt(path[2]);
 
       // show profile and map edit buttons if they belong to logged in user
@@ -126,7 +125,6 @@ $(document).ready(function() {
   var init = function () {
     var splitPath = location.pathname.split('/');
     if (splitPath[1] === 'profile' && parseInt(splitPath[2]) !== isNaN && !splitPath[3]) {
-      console.log ('userpage');
       getUserMaps();
       getProfile();
     }

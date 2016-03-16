@@ -177,9 +177,12 @@ $(document).ready(function () {
   };
 
   var init = function() {
-    bindFilterNewestButton();
-    bindFilterPopularButton();
-    getNewestMaps();
+    var path = location.pathname;
+    if (path === '/') {
+      bindFilterNewestButton();
+      bindFilterPopularButton();
+      getNewestMaps();
+    };
   };
 
   init();
