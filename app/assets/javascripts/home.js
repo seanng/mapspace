@@ -54,7 +54,7 @@ $(document).ready(function () {
       var userID      = item.user.id;
       var mapID       = item.id;
       var title       = item.title;
-      var tags        = item.tags.join(' ');
+      var tags        = item.tags ? item.tags.join(' ') : '';
       var likes       = item.likes.length;
       var like_likeids= [];
       var likesIDs    = [];
@@ -140,7 +140,7 @@ $(document).ready(function () {
       var likes       = item.likes.length;
       var likesIDs    = [];
       var comments    = item.comments.length;
-      var tags        = item.tags.join(' ');
+      var tags        = item.tags ? item.tags.join(' ') : '';
 
       var dateRaw     = item.created_at;
       var dateCurrent = moment();
