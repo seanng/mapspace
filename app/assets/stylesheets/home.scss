@@ -63,8 +63,18 @@
   padding-right: 30px;
 }
 
-.map-stats {
-  padding-left: 0;
+ul.map-stats {
+  padding-top: 15px;
+  padding-right: 30px;
+  padding-left: 15px;
+  margin-bottom: 0px;
+  padding-bottom: 10px;
+}
+
+div.map-tag {
+  text-align: right;
+  margin-top: 15px;
+  padding-right: 30px;
 }
 
 .map-stats > * {

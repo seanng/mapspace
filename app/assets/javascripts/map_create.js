@@ -69,7 +69,7 @@ $(document).ready(function() {
   var bindTagSubmit = function() {
     $('.mc-tags-form').off().on('submit', function(e){
       e.preventDefault();
-      var newTag = $(this).find('.mc-tags-input').val();
+      var newTag = '#'+ $(this).find('.mc-tags-input').val();
       addNewTagRow(newTag);
       tagsarray.push(newTag);
     });
@@ -79,7 +79,7 @@ $(document).ready(function() {
     var newRow = '<form class="mc-tags-form">'+
             '<input type="text" class="form-control mc-tags-input" placeholder="Add tag">'+
           '</form>';
-    var agedrow = '<button class="btn btn-default newhashtag" data-tag="'+ oldrow+'" type="submit"><i>#'+oldrow+'</i></button>';
+    var agedrow = '<button class="btn btn-default newhashtag" data-tag="'+ oldrow +'" type="submit"><i>'+oldrow+'</i></button>';
     $('.mc-tags-form').remove();
     $('.tags-body').append(agedrow);
     $('.tags-body').append(newRow);

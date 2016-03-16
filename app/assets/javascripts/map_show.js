@@ -231,9 +231,6 @@ $(document).ready(function() {
     $('#mv-description').text(obj.description);
     $('#mv-creator-name').text('by '+obj.user.name);
     $('#number-of-likes').text(obj.likes.length);
-    obj.tags.forEach(function(tag){
-      $('#mv-tags').append(' #'+tag);
-    });
   };
 
   var getMapInfo = function(map_id) {
