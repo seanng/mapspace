@@ -61,11 +61,17 @@ $(document).ready(function() {
       var title       = item.title;
       var tags        = item.tags.join(' ');
       var likes       = item.likes.length;
+      var like_likeids= [];
+      var likesIDs    = [];
       var comments    = item.comments.length;
 
       var dateRaw     = item.created_at;
       var dateCurrent = moment();
       var dateSince   = dateCurrent.diff(dateRaw, 'days');
+
+      item.likes.forEach(function(like){
+        likesIDs.push(like.user_id);
+      });
 
       var newMap =
 '<div class="row map-item" data-user-id="'+userID+'">'+
