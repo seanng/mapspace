@@ -70,7 +70,7 @@ $(document).ready(function() {
       var userID = item.user_id;
       var mapID = item.id;
       var title       = item.title;
-      var tags        = item.tags ? "#"+item.tags : "";
+      var tags        = item.tags.join(' ');
       var likes       = item.likes.length;
       var comments    = item.comments.length;
 
@@ -78,26 +78,33 @@ $(document).ready(function() {
       var dateCurrent = moment();
       var dateSince   = dateCurrent.diff(dateRaw, 'days');
 
-      var newMap = '' +
-        '<div class="row map-item" data-user-id="' + userID + '">' +
-          '<div class="col-xs-2">' +
-            '<div class="likes">' +
-              '<div class="number-of-likes">' + likes + '</div>' +
-            '</div>' +
-          '</div>' +
-          '<div class="col-xs-8 map-about">' +
-            '<h3><a href="/maps/' + mapID + '">' + title + '</a></h3>' +
-            '<ul class="map-stats">' +
-              '<li class="map-stats-comments"><a href="/maps/' + mapID + '/comments">' + comments + '</a> comments</li>' +
-              '<ul class="map-stats-user">' +
-                '<li class="map-stats-date">' + dateSince + ' days ago </li>' +
-                '<li class="map-stats-owner">by ' + '<a href="/profile/' + userID + '">' + user + '</a></li>' +
-              '</ul>' +
-            '</ul>' +
-          '</div>' +
-          '<div class="col-xs-2 map-tag"><h5>' + tags + '</h5></div>' +
-        '</div>';
-
+      var newMap =
+'<div class="row map-item" data-user-id="'+userID+'">'+
+  '<div class="col-xs-2">'+
+    '<div class="likes" data-likes="'+likesIDs+'">'+
+      '<div class="number-of-likes">'+likes+'</div>'+
+    '</div>'+
+  '</div>'+
+  '<div class="col-xs-10 map-about">'+
+    '<div class="row top-half">'+
+      '<div class="col-xs-7">'+
+        '<h3><a href="/maps/'+mapID+'">'+title+'</a></h3>'+
+      '</div>'+
+      '<div class="col-xs-5 map-tag">'+
+        '<h5>'+tags+'</h5>'+
+      '</div>'+
+    '</div>'+
+    '<div class="row bottom-half">'+
+      '<ul class="map-stats">'+
+        '<li class="map-stats-comments"><a href="/maps/'+mapID+'/comments">'+comments+'</a> comments </li>'+
+        '<ul class="map-stats-user">'+
+          '<li class="map-stats-date">'+  dateSince+ '  days ago </li>'+
+          '<li class="map-stats-owner"> by '+ '<a href="/profile/'+userID+'">'+user+'</a></li>'+
+        '</ul>'+
+      '</ul>'+
+    '</div>'+
+  '</div>'+
+'</div>';
       $('#filter-feed').append(newMap);
 
     });
