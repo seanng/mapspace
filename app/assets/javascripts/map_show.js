@@ -227,10 +227,13 @@ $(document).ready(function() {
   };
 
   var renderMapSummary = function(obj){
+
     $('#mv-title').text(obj.title);
     $('#mv-description').text(obj.description);
     $('#mv-creator-name').text('by '+obj.user.name);
     $('#number-of-likes').text(obj.likes.length);
+    var tags = obj.tags ? obj.tags.join('      ') : '';
+    $('#mv-tags').text(tags);
   };
 
   var getMapInfo = function(map_id) {

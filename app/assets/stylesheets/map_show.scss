@@ -21,10 +21,17 @@ h4.panel-title {
   margin-bottom: 20px;
   height: 150px;
   border: 1px solid #e7e7e7;
+  padding-left: 0px;
 }
 
 #mv-title {
   margin-top: 35px;
+}
+
+a.catName {
+  text-align: center;
+  font-size: 24px;
+  font
 }
 
 .mv-place-description {
@@ -63,10 +70,6 @@ h4.panel-title {
   float:right;
 }
 
-#mv-tags {
-  font-style: italic;
-}
-
 #mv-likes {
   margin-right: 0px;
   margin-bottom: 2px;
@@ -84,8 +87,9 @@ div.panel-body {
   border: 0px;
 }
 
-div.panel-heading {
+div.panel-heading[role="tab"] {
   border-bottom: 1px #F8F8F8 solid;
+  background-color: white;
 }
 
 #number-of-likes {
