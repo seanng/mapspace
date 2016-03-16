@@ -58,13 +58,14 @@ $(document).ready(function() {
 
     var distanceHTML = '';
     if (locationAllowed) {
-      distanceHTML = '<div class="place-travel-info">' +
-                       '<p class="mv-distance">'+ calculateDistance(pin.place.lat, pin.place.long) +" km away"+'</p>'+
-                     '</div>';
+      distanceHTML =  '' +
+                      '<div class="col-xs-11 place-travel-info">' +
+                         '<p class="mv-distance">'+ calculateDistance(pin.place.lat, pin.place.long) +" km away"+'</p>'+
+                      '</div>';
     }
 
     var placeHTML = '<div class="row place-row">'+
-                      '<div class="col-xs-4 mv-place-name">'+
+                      '<div class="col-xs-12 mv-place-name">'+
                         '<h4 class="mv-place-name-data"' +
                           'data-lat="'+     pin.place.lat     +'"' +
                           'data-long="'+    pin.place.long    +'"' +
@@ -74,14 +75,23 @@ $(document).ready(function() {
                           'data-website="'+   pin.place.website +'">' +
                           pin.place.name +'</h4>'+
                       '</div>'+
-                      '<div class="col-xs-8 mv-place-description">'+
-                        '<p class="pin-description">'+ pin.description +'</p>'+
-                        distanceHTML +
+                      '<div class="col-xs-12 mv-place-description">'+
+                        '<p class="pin-description">'+ pin.description +'</p>' +
                       '</div>'+
+                      '<div class="col-xs-12 edit-pin-info">' +
+                        ''+ distanceHTML +'' +
+                      '</div>' +
                     '</div>';
 
     $('.panel-body').last().append(placeHTML);
     showPinModal();
+  };
+
+  var refreshPinModal = function () {
+    $('#place-modal').on('show.bs.modal', function (e) {
+      console.log("test");
+      google.maps.event.trigger(map, 'resize');
+    });
   };
 
   var showPinModal = function () {
@@ -98,7 +108,25 @@ $(document).ready(function() {
       };
 
       var $modal = $('#place-modal');
-      $modal.modal('show');
+
+      $modal.on('shown.bs.modal', function(e) {
+        // add map to modal
+        var map = new google.maps.Map(document.getElementById('place-modal-map'), {
+          center: {lat: place.lat, lng: place.long},
+          scrollwheel: false,
+          zoom: 15
+        });
+
+        // place marker on map
+        var marker = new google.maps.Marker({
+          position: {lat: place.lat, lng: place.long},
+          map: map,
+          title: place.name
+        });
+
+        google.maps.event.trigger(map, 'resize');
+        map.setCenter(new google.maps.LatLng(place.lat, place.long));
+      });
 
       // add data to modal
       $('#place-modal-name').text(place.name);
@@ -106,23 +134,7 @@ $(document).ready(function() {
       $('#place-modal-phone').text(place.phone);
       $('#place-modal-website').text(place.website);
 
-      // add map to modal
-      var map = new google.maps.Map(document.getElementById('place-modal-map'), {
-        center: {lat: place.lat, lng: place.long},
-        scrollwheel: false,
-        zoom: 4
-      });
-
-      // place marker on map
-      var marker = new google.maps.Marker({
-        position: {lat: place.lat, lng: place.long},
-        map: map,
-        title: place.name
-      });
-
-      google.maps.event.trigger(map, 'resize');
-      map.setCenter(new google.maps.LatLng(place.lat, place.long));
-
+      $modal.modal('show');
     });
   };
 
@@ -141,12 +153,12 @@ $(document).ready(function() {
 
   var allowEditing = function(pin){
     var editButton =
-    '<span>' +
+    '<div class="col-xs-1 edit-pin-buttons">' +
       '<button type="button" class="btn btn-default btn-sm show pin-edit">' +
         '<span class="glyphicon glyphicon-edit show pin-edit" aria-hidden="true"></span></button>' +
       '<button type="button" data="' + pin.id + '" class="btn btn-default btn-sm hidden pin-save">Save</button>' +
-    '</span>';
-    $('.mv-place-description').last().prepend(editButton);
+    '</div>';
+    $('.edit-pin-info').last().append(editButton);
   };
 
   var renderMapList = function(obj){
@@ -189,14 +201,15 @@ $(document).ready(function() {
   };
 
   var bindPinEditButton = function(){
-    $('.btn.pin-edit').on('click', function(e){
-      var desc = $(this).parent().parent().find('.pin-description').text();
-      $(this).parent().parent().find('.pin-description').html(inputBox(desc));
+    $('.btn.pin-edit').off().on('click', function(e){
+      var desc = $(this).parent().parent().parent().find('.pin-description').text();
+      $(this).parent().parent().parent().find('.pin-description').html(inputBox(desc));
       $(this).addClass('hidden');
       $(this).parent().find('.pin-save').removeClass('hidden');
     });
 
     var inputBox = function(description) {
+      console.log('working?')
       return '<input type="text" class="form-control pin-edit" value="'+description+'">';
     };
   };
@@ -204,9 +217,8 @@ $(document).ready(function() {
   var bindPinSaveButton = function(){
 
     $('.btn.pin-save').off().on('click', function(e){
-      var input = $(this).parent().parent().find('.form-control.pin-edit').val();
-      console.log(input);
-      $(this).parent().parent().find('.pin-description').html(input);
+      var input = $(this).parent().parent().parent().find('.form-control.pin-edit').val();
+      $(this).parent().parent().parent().find('.pin-description').html(input);
       $(this).addClass('hidden');
       $(this).parent().find('.btn.pin-edit').removeClass('hidden');
       var pin_id = $(this).attr('data');
@@ -238,6 +250,7 @@ $(document).ready(function() {
   };
 
   var init = function () {
+    // refreshPinModal();
     var splitPath = location.pathname.split('/');
     if (splitPath[1] === 'maps' && parseInt(splitPath[2]) !== isNaN && !splitPath[3]) {
       if (navigator.geolocation) {
