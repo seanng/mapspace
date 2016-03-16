@@ -81,6 +81,11 @@ h4.panel-title {
 
 div.panel-body {
   background: #F8F8F8;
+  border: 0px;
+}
+
+div.panel-heading {
+  border-bottom: 1px #F8F8F8 solid;
 }
 
 #number-of-likes {
@@ -88,6 +93,9 @@ div.panel-body {
   padding-top: 8px;
 }
 
+div.col-xs-11.place-travel-info {
+  padding-left: 0px;
+}
 
 #place-travel-info > * {
   display: inline;
@@ -97,4 +105,16 @@ div.panel-body {
   width: 100%;
   height: 250px;
   border-bottom: 1px solid #e7e7e7;
+  margin-bottom: 10px;
+}
+
+.modal-body > ul {
+  list-style-type: none;
+  padding-left: 0px;
+}
+
+.modal-body > ul > li > * {
+  margin-top: 5px;
+  display: inline;
+  padding-left: 10px;
 }
