@@ -6,6 +6,18 @@ $(document).ready(function() {
 
   var tagsarray = [];
 
+
+
+
+  $('#mapTitle').on('keyup keypress', function(e){
+    var keyCode = e.keyCode || e.which;
+    if (keyCode === 13) {
+      e.preventDefault();
+      return false;
+    }
+  });
+
+
   var mapHasCategories = false;
 
   var appendNewPlace = function(){
@@ -17,7 +29,7 @@ $(document).ready(function() {
       '<div class="col-xs-8 place-name-div form-group">'+
         '<input type="input" class="form-control place-name-field" placeholder="Place name">'+
       '</div>'+
-      '<button class="btn btn-warning delete-entry" type="submit">Delete place</button>'+
+      '<button class="btn btn-warning delete-entry" type="button">Delete place</button>'+
       '<div class="form-group">'+
         '<textarea class="form-control place-description" placeholder="Description" rows="2"></textarea>'+
       '</div>'+
@@ -32,7 +44,7 @@ $(document).ready(function() {
       '<div class="col-xs-8 place-name-div form-group">'+
         '<input type="input" class="form-control place-name-field" placeholder="Place name">'+
       '</div>'+
-      '<button class="btn btn-warning delete-entry" type="submit">Delete place</button>'+
+      '<button class="btn btn-warning delete-entry" type="button">Delete place</button>'+
       '<div class="form-group">'+
         '<textarea class="form-control place-description" placeholder="Description" rows="2"></textarea>'+
       '</div>'+
